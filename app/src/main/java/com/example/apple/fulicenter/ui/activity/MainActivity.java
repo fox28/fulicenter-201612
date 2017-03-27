@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.example.apple.fulicenter.R;
+import com.example.apple.fulicenter.ui.fragment.NewGoodsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bind = ButterKnife.bind(this);
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, new NewGoodsFragment())
+                .commit();
 
     }
 

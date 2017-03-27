@@ -15,7 +15,7 @@ public class NewGoodsModel implements INewGoodsModel {
     // http://101.251.196.90:8080/FuLiCenterServerV2.0/findNewAndBoutiqueGoods?cat_id=0&page_id=1&page_size=10
     public void downloadData(Context context, int pageId,OnCompleteListener listener) {
         OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
-        utils.setRequestUrl(I.SERVER_ROOT+I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
+        utils.setRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
                 .addParam(I.NewAndBoutiqueGoods.CAT_ID,String.valueOf(I.CAT_ID))
                 .addParam(I.PAGE_ID, String.valueOf(pageId))
                 .addParam(I.PAGE_SIZE, String.valueOf(I.PAGE_SIZE_DEFAULT))

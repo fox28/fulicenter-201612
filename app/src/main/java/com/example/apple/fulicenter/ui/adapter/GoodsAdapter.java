@@ -44,6 +44,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         holder.tvGoodsPrice.setText(bean.getCurrencyPrice());
         ImageLoader.downloadImg(context, holder.ivGoodsThumb,bean.getGoodsThumb());
 
+
     }
 
     @Override
