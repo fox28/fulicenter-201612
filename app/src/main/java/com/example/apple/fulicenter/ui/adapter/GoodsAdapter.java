@@ -35,6 +35,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     }
     public void setMore(boolean more) {
         isMore = more;
+        this.notifyDataSetChanged();
     }
 
 
@@ -67,6 +68,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
             FooterHolder holder = (FooterHolder) parentHolder;
             holder.mTvFooter.setText(getFooterString());
+
             return;
 
         } else {
@@ -81,6 +83,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
 
     private int getFooterString() {
         return isMore? R.string.load_more:R.string.no_more;
+
     }
 
     @Override

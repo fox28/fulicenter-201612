@@ -64,13 +64,10 @@ public class NewGoodsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_goods, container, false);
-
-
         unbinder = ButterKnife.bind(this, view);
         return view;
 
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -89,6 +86,17 @@ public class NewGoodsFragment extends Fragment {
                 getResources().getColor(R.color.google_green)
                 );
         manager = new GridLayoutManager(getContext(), I.COLUM_NUM);
+
+       manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+           @Override
+           public int getSpanSize(int position) {
+               if (position == mList.size()) {
+                   return I.COLUM_NUM;
+               }
+               return 1;
+           }
+       });
+
         mrvGoods.setLayoutManager(manager);
         mrvGoods.setHasFixedSize(true);
         adapter = new GoodsAdapter(getContext(), mList);
