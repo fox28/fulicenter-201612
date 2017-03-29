@@ -50,8 +50,7 @@ public class NewGoodsFragment extends Fragment {
     RecyclerView mrvGoods;
     @BindView(R.id.srl)
     SwipeRefreshLayout mSrl;
-    @BindView(R.id.tv_nomore)
-    TextView mtvNomore;
+
     Unbinder unbinder;
 
     public NewGoodsFragment() {
@@ -151,7 +150,7 @@ public class NewGoodsFragment extends Fragment {
                 adapter.setMore(true);
                 L.e(TAG, "initData, result = " + result);
                 if (result != null && result.length > 0) {
-//                    L.e(TAG, "initData, result = " + result.length);
+                    L.e(TAG, "initData, result = " + result.length);
                     ArrayList<NewGoodsBean> lists = ResultUtils.array2List(result);
                     if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
                         mList.clear();
@@ -159,6 +158,7 @@ public class NewGoodsFragment extends Fragment {
                     mList.addAll(lists); // 添加list
                     if (lists.size() < I.PAGE_ID_DEFAULT) {
                         adapter.setMore(false);
+
                     }
                     adapter.notifyDataSetChanged();
                 }
