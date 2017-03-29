@@ -69,56 +69,37 @@ public class BoutiqueFragment extends Fragment {
 
         mModel = new BoutiqueModel();
         initView();
-        initData(I.ACTION_DOWNLOAD);
+        initData();
         setListener();
 
     }
 
     private void setListener() {
         setPullDownListener();
-        setPullUpListener();
     }
     private void setPullDownListener() {
         mSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 setRefresh(true);
-                initData(I.ACTION_PULL_DOWN);
-            }
-        });
-    }
-    private void setPullUpListener() {
-        mRvGoods.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                int lastPosition = mManager.findLastVisibleItemPosition();
-                if (lastPosition == mAdapter.getItemCount() - 1 && mAdapter.isMore()
-                        && newState == recyclerView.SCROLL_STATE_IDLE) {
-                    initData(I.ACTION_PULL_UP);
-                }
+                initData();
             }
         });
     }
 
 
-    private void initData(final int action) {
+
+    private void initData() {
         mModel.downloadData(getContext(), new OnCompleteListener<BoutiqueBean[]>() {
             @Override
             public void onSuccess(BoutiqueBean[] result) {
                 setRefresh(false);
-                mAdapter.setMore(true);
                 L.e(TAG, "initData, result :" +result);
                 if (result != null && result.length > 0) {
                     L.e(TAG, "initData, result长度" + result.length);
                     ArrayList<BoutiqueBean> listArr = ResultUtils.array2List(result);
-                    if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
-                        mList.clear();
-                    }
+                    mList.clear();
                     mList.addAll(listArr);
-                    if (listArr.size() < I.PAGE_ID_DEFAULT) {
-                        mAdapter.setMore(false);
-                    }
                     mAdapter.notifyDataSetChanged();
                 }
             }

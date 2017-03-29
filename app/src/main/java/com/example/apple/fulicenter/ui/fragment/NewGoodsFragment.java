@@ -122,6 +122,13 @@ public class NewGoodsFragment extends Fragment {
                     initData(I.ACTION_PULL_UP);
                 }
             }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int firstPosition = manager.findFirstVisibleItemPosition();
+                mSrl.setEnabled(firstPosition == 0);
+            }
         });
 
     }
