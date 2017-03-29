@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.I;
@@ -39,6 +40,7 @@ public class NewGoodsFragment extends Fragment {
 
     INewGoodsModel model;
     int pageId = 1;
+    int catId = 0;
 
     GridLayoutManager manager;
     GoodsAdapter adapter;
@@ -72,6 +74,7 @@ public class NewGoodsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         model = new NewGoodsModel();
+        catId = getActivity().getIntent().getIntExtra(I.NewAndBoutiqueGoods.CAT_ID, 0);
         initView();
         setListener();
         initData(I.ACTION_DOWNLOAD);
@@ -147,7 +150,7 @@ public class NewGoodsFragment extends Fragment {
 
 
     private void initData(final int action) {
-        model.downloadData(getContext(), pageId, new OnCompleteListener<NewGoodsBean[]>() {
+        model.downloadData(getContext(), catId, pageId, new OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 // 设置SwipeRefreshLayout为不再刷新

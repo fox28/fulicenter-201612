@@ -10,5 +10,5 @@ import com.example.apple.fulicenter.model.bean.NewGoodsBean;
  */
 
 public interface INewGoodsModel {
-    void downloadData(Context context, int pageId,OnCompleteListener<NewGoodsBean[]> listener);
+    void downloadData(Context context, int catId, int pageId,OnCompleteListener<NewGoodsBean[]> listener);
 }

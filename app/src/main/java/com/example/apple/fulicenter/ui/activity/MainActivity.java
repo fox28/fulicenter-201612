@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Unbinder bind;
 
     Fragment[] mFragments;
-     NewGoodsFragment mNewGoodsFragment;
+    NewGoodsFragment mNewGoodsFragment;
     BoutiqueFragment mBoutiqueFragment;
     int index = 0;
     int currentIndex = 0;
