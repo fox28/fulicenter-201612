@@ -12,6 +12,7 @@ import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.NewGoodsBean;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
+import com.example.apple.fulicenter.ui.view.FooterHolder;
 
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         ImageLoader.downloadImg(context, holder.ivGoodsThumb,bean.getGoodsThumb());*/
         if (getItemViewType(position) == I.TYPE_FOOTER) {
             FooterHolder holder = (FooterHolder) parentHolder;
-            holder.mTvFooter.setText(getFooterString());
+            holder.setFooterString(getFooterString());
 
             return;
 
@@ -115,13 +116,5 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         }
     }
 
-     class FooterHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.tvFooter)
-        TextView mTvFooter;
 
-        FooterHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
 }
