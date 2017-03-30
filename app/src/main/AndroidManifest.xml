@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.BoutiqueChildActivity"/>
+        <activity android:name=".ui.activity.GoodsDetailActivity"/>
     </application>
 
 </manifest>

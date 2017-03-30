@@ -13,6 +13,7 @@ import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.NewGoodsBean;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
 import com.example.apple.fulicenter.ui.view.FooterHolder;
+import com.example.apple.fulicenter.ui.view.MFGT;
 
 import java.util.List;
 
@@ -69,15 +70,21 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
             FooterHolder holder = (FooterHolder) parentHolder;
             holder.setFooterString(getFooterString());
-
             return;
-
-        } else {
-            GoodsHolder holder = (GoodsHolder) parentHolder;
-            holder.tvGoodsName.setText(mList.get(position).getGoodsName());
-            holder.tvGoodsPrice.setText(mList.get(position).getCurrencyPrice());
-            ImageLoader.downloadImg(context, holder.ivGoodsThumb, mList.get(position).getGoodsThumb());
         }
+        GoodsHolder holder = (GoodsHolder) parentHolder;
+        final NewGoodsBean bean = mList.get(position);
+        holder.tvGoodsName.setText(bean.getGoodsName());
+        holder.tvGoodsPrice.setText(bean.getCurrencyPrice());
+        ImageLoader.downloadImg(context, holder.ivGoodsThumb, bean.getGoodsThumb());
+
+        // 设置商品详情的点击事件
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MFGT.gotoDetailActivity(context, bean.getGoodsId());
+            }
+        });
 
     }
 

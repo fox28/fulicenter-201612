@@ -8,6 +8,7 @@ import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.BoutiqueBean;
 import com.example.apple.fulicenter.ui.activity.BoutiqueChildActivity;
+import com.example.apple.fulicenter.ui.activity.GoodsDetailActivity;
 import com.example.apple.fulicenter.ui.activity.MainActivity;
 
 /**
@@ -44,5 +45,10 @@ public class MFGT {
         startActivity((Activity) context, new Intent(context, BoutiqueChildActivity.class)
                 .putExtra(I.NewAndBoutiqueGoods.CAT_ID, bean.getId())
                 .putExtra(I.Boutique.TITLE, bean.getTitle()));
+    }
+
+    public static void gotoDetailActivity(Context context, int goodsId) {
+        startActivity((Activity)context, new Intent(context, GoodsDetailActivity.class)
+        .putExtra(I.Goods.KEY_GOODS_ID, goodsId));
     }
 }
