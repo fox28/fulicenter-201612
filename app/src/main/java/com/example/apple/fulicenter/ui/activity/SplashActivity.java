@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.apple.fulicenter.R;
+import com.example.apple.fulicenter.ui.view.MFGT;
 
 /**
  * Created by apple on 2017/3/26.
@@ -27,7 +28,11 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
+//                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+// 跟下面作用相同
+
+                MFGT.gotoMainActivity(SplashActivity.this);
                 SplashActivity.this.finish();
 
             }

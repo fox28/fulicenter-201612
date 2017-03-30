@@ -15,6 +15,7 @@ import com.example.apple.fulicenter.model.bean.BoutiqueBean;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.ui.activity.BoutiqueChildActivity;
+import com.example.apple.fulicenter.ui.view.MFGT;
 
 import java.util.ArrayList;
 
@@ -57,9 +58,8 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, BoutiqueChildActivity.class).
-                        putExtra(I.NewAndBoutiqueGoods.CAT_ID, bean.getId())
-                        .putExtra(I.Boutique.TITLE, bean.getTitle()));
+                MFGT.gotoBoutiqueChildActivity(mContext, bean);
+
             }
         });
 

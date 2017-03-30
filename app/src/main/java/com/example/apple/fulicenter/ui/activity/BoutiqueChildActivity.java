@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.ui.fragment.NewGoodsFragment;
+import com.example.apple.fulicenter.ui.view.MFGT;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +40,7 @@ public class BoutiqueChildActivity extends AppCompatActivity {
 
     @OnClick(R.id.backClickArea)
     public void onViewClicked() {
-        finish();
+//        finish(); // 用下面的统一工具代替
+        MFGT.finish(BoutiqueChildActivity.this);
     }
 }
