@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/divid_explist_group"
+    >
+    <ImageView
+        android:id="@+id/iv_group_thumb"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/nopic"
+        android:layout_marginLeft="30dp"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+
+        />
+    <TextView
+        android:id="@+id/iv_group_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="美妆美妆"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:layout_toRightOf="@id/iv_group_thumb"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"/>
+    <ImageView
+        android:id="@+id/iv_group_expand"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@mipmap/expand_on"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        />
+</RelativeLayout>

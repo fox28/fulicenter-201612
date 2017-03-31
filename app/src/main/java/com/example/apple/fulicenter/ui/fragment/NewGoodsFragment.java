@@ -31,6 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -86,18 +88,18 @@ public class NewGoodsFragment extends Fragment {
                 getResources().getColor(R.color.google_yellow),
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green)
-                );
+        );
         manager = new GridLayoutManager(getContext(), I.COLUM_NUM);
 
-       manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-           @Override
-           public int getSpanSize(int position) {
-               if (position == mList.size()) {
-                   return I.COLUM_NUM;
-               }
-               return 1;
-           }
-       });
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position == mList.size()) {
+                    return I.COLUM_NUM;
+                }
+                return 1;
+            }
+        });
 
         mrvGoods.setLayoutManager(manager);
         mrvGoods.setHasFixedSize(true);
