@@ -73,6 +73,7 @@ public class CategoryFragment extends Fragment {
         loadGroupData();
         mAdapter = new CategoryAdapter(getActivity());
         mElv.setAdapter(mAdapter);
+        mElv.setGroupIndicator(null); // ！！！设置Group前面的图标隐藏
 
 
     }
