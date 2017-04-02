@@ -72,6 +72,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
             holder.setFooterString(getFooterString());
             return;
         }
+
         GoodsHolder holder = (GoodsHolder) parentHolder;
         final NewGoodsBean bean = mList.get(position);
         holder.tvGoodsName.setText(bean.getGoodsName());

@@ -11,12 +11,25 @@ import com.example.apple.fulicenter.model.utils.OkHttpUtils;
  */
 
 public class NewGoodsModel implements INewGoodsModel {
-    @Override
     // http://101.251.196.90:8080/FuLiCenterServerV2.0/findNewAndBoutiqueGoods?cat_id=0&page_id=1&page_size=10
-    public void downloadData(Context context, int catId, int pageId,OnCompleteListener listener) {
+
+    // 下载分类二级页面的请求URL
+    // http://101.251.196.90:8080/FuLiCenterServerV2.0/findGoodsDetails?cat_id=262&page_id=1&page_size=10
+
+
+
+
+    @Override
+
+
+    public void downloadData(Context context, int catId, int pageId, OnCompleteListener listener) {
+        String url = I.REQUEST_FIND_NEW_BOUTIQUE_GOODS;
+        if (catId > 0) {
+            url = I.REQUEST_FIND_GOODS_DETAILS;
+        }
         OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
-        utils.setRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
-                .addParam(I.NewAndBoutiqueGoods.CAT_ID,String.valueOf(catId))
+        utils.setRequestUrl(url)
+                .addParam(I.NewAndBoutiqueGoods.CAT_ID, String.valueOf(catId))
                 .addParam(I.PAGE_ID, String.valueOf(pageId))
                 .addParam(I.PAGE_SIZE, String.valueOf(I.PAGE_SIZE_DEFAULT))
                 .targetClass(NewGoodsBean[].class)

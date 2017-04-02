@@ -6,13 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.model.bean.CategoryChildBean;
 import com.example.apple.fulicenter.model.bean.CategoryGroupBean;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
-import com.example.apple.fulicenter.model.utils.L;
+import com.example.apple.fulicenter.ui.view.MFGT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return groupList != null  ? groupList.size() : 0;
+        return groupList != null ? groupList.size() : 0;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition,
                              boolean isExpanded, View convertView, ViewGroup parent) {
-        GroupViewHolder holder ;
+        GroupViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_category_group, null);
             holder = new GroupViewHolder(convertView);
@@ -88,12 +89,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
-
-        CategoryGroupBean bean = getGroup(groupPosition);
-//        L.e(TAG, "标记6：group = " + bean.getName()) ;
-        holder.mIvGroupName.setText(bean.getName());
-        holder.mIvGroupExpand.setImageResource(isExpanded ? R.mipmap.expand_off : R.mipmap.expand_on);
-        ImageLoader.downloadImg(mContext, holder.mIvGroupThumb, bean.getImageUrl());
+        holder.bind(groupPosition, isExpanded);
 
         return convertView;
     }
@@ -101,7 +97,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
-        ChildViewHolder holder ;
+        ChildViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_category_child, null);
             holder = new ChildViewHolder(convertView);
@@ -110,12 +106,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
-        CategoryChildBean bean = getChild(groupPosition, childPosition);
-//        L.e(TAG, "标记7：child = " + bean.getName()) ;
-        if (bean != null) {
-            holder.mIvChildName.setText(bean.getName());
-            ImageLoader.downloadImg(mContext, holder.mIvChildThumb, bean.getImageUrl());
-        }
+        holder.bind(groupPosition, childPosition);
         return convertView;
     }
 
@@ -147,16 +138,46 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         GroupViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+
+        public void bind(int groupPosition, boolean isExpanded) {
+            CategoryGroupBean bean = getGroup(groupPosition);
+//        L.e(TAG, "标记6：group = " + bean.getName()) ;
+            mIvGroupName.setText(bean.getName());
+            mIvGroupExpand.setImageResource(isExpanded ? R.mipmap.expand_off : R.mipmap.expand_on);
+            ImageLoader.downloadImg(mContext, mIvGroupThumb, bean.getImageUrl());
+        }
     }
+
+
 
     class ChildViewHolder {
         @BindView(R.id.iv_child_thumb)
         ImageView mIvChildThumb;
         @BindView(R.id.iv_child_name)
         TextView mIvChildName;
+        @BindView(R.id.layout_category_child)
+        RelativeLayout mLayoutCategoryChild;
 
         ChildViewHolder(View view) {
             ButterKnife.bind(this, view);
+        }
+
+        public void bind(int groupPosition, int childPosition) {
+            final CategoryChildBean bean = getChild(groupPosition, childPosition);
+//        L.e(TAG, "标记7：child = " + bean.getName()) ;
+            if (bean != null) {
+                mIvChildName.setText(bean.getName());
+                ImageLoader.downloadImg(mContext, mIvChildThumb, bean.getImageUrl());
+
+                // 监听事件选择mLayoutCategoryChild，分类小组数据的布局！！
+                mLayoutCategoryChild.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MFGT.toCategoryChildActivity(mContext, bean.getId());
+                    }
+                });
+
+            }
         }
     }
 }
