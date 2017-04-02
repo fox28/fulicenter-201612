@@ -15,6 +15,8 @@ import com.example.apple.fulicenter.model.utils.ImageLoader;
 import com.example.apple.fulicenter.ui.view.FooterHolder;
 import com.example.apple.fulicenter.ui.view.MFGT;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,8 +40,42 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         this.notifyDataSetChanged();
     }
 
+    int sortBy = I.SORT_BY_ADDTIME_DESC;
 
+    public void setSortBy(int sortBy) {
+        this.sortBy = sortBy;
+        onSortBy();
+    }
 
+    private void onSortBy() {
+        Collections.sort(mList, new Comparator<NewGoodsBean>() {
+            @Override
+            public int compare(NewGoodsBean l, NewGoodsBean r) {
+                int result =0;
+                switch (sortBy) {
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result = (int) (l.getAddTime() - r.getAddTime());
+                        break;
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result = (int) (r.getAddTime() - l.getAddTime());
+                        break;
+                    case I.SORT_BY_PRICE_ASC:
+                        result = getPrice(l.getCurrencyPrice()) - getPrice(r.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result = getPrice(r.getCurrencyPrice()) - getPrice(l.getCurrencyPrice());
+                        break;
+                }
+                return result;
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    private int getPrice(String price) {
+        String substring = price.substring(price.indexOf('￥') + 1);
+        return Integer.valueOf(substring);
+    }
 
     public GoodsAdapter(Context context, List<NewGoodsBean> list) {
         this.context = context;

@@ -197,4 +197,8 @@ public class NewGoodsFragment extends Fragment {
         unbinder.unbind();
 
     }
+
+    public void setSortBy(int sortBy) {
+        adapter.setSortBy(sortBy);
+    }
 }
