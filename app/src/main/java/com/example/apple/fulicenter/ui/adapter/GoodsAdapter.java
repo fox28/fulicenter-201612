@@ -28,9 +28,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     Context context;
     List<NewGoodsBean> mList;
 
-    /**
-     *
-     */
+
     boolean isMore;
     public boolean isMore() {
         return isMore;
@@ -41,6 +39,8 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     }
 
 
+
+
     public GoodsAdapter(Context context, List<NewGoodsBean> list) {
         this.context = context;
         this.mList = list;
@@ -49,8 +49,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        /*GoodsHolder holder = new GoodsHolder(View.inflate(context, R.layout.item_goods, null));
-        View.inflate(context, R.layout.item_footer, null);*/
+
         RecyclerView.ViewHolder holder= null;
         if (viewType == I.TYPE_FOOTER) {
             holder = new FooterHolder(View.inflate(context, R.layout.item_footer, null));
@@ -62,11 +61,8 @@ public class GoodsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, int position) {
-        /*GoodsHolder holder = (GoodsHolder) parentHolder;
-        NewGoodsBean bean = mList.get(position);
-        holder.tvGoodsName.setText(bean.getGoodsName());
-        holder.tvGoodsPrice.setText(bean.getCurrencyPrice());
-        ImageLoader.downloadImg(context, holder.ivGoodsThumb,bean.getGoodsThumb());*/
+
+
         if (getItemViewType(position) == I.TYPE_FOOTER) {
             FooterHolder holder = (FooterHolder) parentHolder;
             holder.setFooterString(getFooterString());
