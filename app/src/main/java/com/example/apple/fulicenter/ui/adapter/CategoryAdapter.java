@@ -116,13 +116,13 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     }
 
     public void initData(List<CategoryGroupBean> groupList, List<List<CategoryChildBean>> childList) {
-        Log.e(TAG, "标记4：initData,groupList = " + groupList.size() + "initData, childList = " + childList);
+        Log.e(TAG, "标记4：initData,groupList = " + groupList.size() + "initData, childList = " + childList.size());
         this.groupList.clear();
         this.childList.clear();
         this.groupList = groupList;
         this.childList = childList;
         Log.e(TAG, "标记5：initData,this.groupList = " + this.groupList.size() +
-                "initData, this.childList = " + this.childList);
+                "initData, this.childList = " + this.childList.size());
 
         notifyDataSetChanged();
     }
