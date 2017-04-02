@@ -114,7 +114,6 @@ public class NewGoodsFragment extends Fragment {
         setPullDownListener();
         setPullUpListener();
     }
-
     private void setPullUpListener() {
         mrvGoods.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -127,7 +126,6 @@ public class NewGoodsFragment extends Fragment {
                     initData(I.ACTION_PULL_UP);
                 }
             }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -137,7 +135,6 @@ public class NewGoodsFragment extends Fragment {
         });
 
     }
-
     private void setPullDownListener() {
         // 下拉刷新
         mSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -186,8 +183,12 @@ public class NewGoodsFragment extends Fragment {
     }
 
     private void setRefresh(boolean refresh) {
-        mSrl.setRefreshing(refresh);
-        mtvRefresh.setVisibility(refresh ? View.VISIBLE : View.GONE);
+        if (mSrl != null) {
+            mSrl.setRefreshing(refresh);
+        }
+        if (mtvRefresh != null) {
+            mtvRefresh.setVisibility(refresh ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
