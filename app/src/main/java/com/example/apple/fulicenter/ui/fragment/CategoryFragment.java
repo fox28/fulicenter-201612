@@ -91,6 +91,8 @@ public class CategoryFragment extends Fragment {
                         childList.add(new ArrayList<CategoryChildBean>());
                         loadChildData(list.get(i).getId(), i);
                     }
+                } else {
+                    showDialog(false,false);
                 }
             }
 
@@ -113,27 +115,18 @@ public class CategoryFragment extends Fragment {
                 }
                 if (loadIndex == groupList.size()) {
                     mAdapter.initData(groupList, childList);
-
                     L.e(TAG, "标记1：load and data ... ");
                     showDialog(false, true);
-
                 }
 
             }
 
             @Override
             public void onError(String error) {
-
                 loadIndex++;
-//                L.e(TAG, "标记2：loadChildData," + error);
+                L.e(TAG, "标记2：loadChildData," + error);
 
-                if (loadIndex == groupList.size()) {
-
-                    mAdapter.initData(groupList, childList);
-                    showDialog(false, false);
-//                    L.e(TAG, "标记3：load and data ... ");
-
-                }
+                showDialog(false, false);
 
 
             }
