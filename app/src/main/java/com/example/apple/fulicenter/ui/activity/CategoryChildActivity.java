@@ -62,18 +62,18 @@ public class CategoryChildActivity extends AppCompatActivity {
         Drawable arrowOriention;
         switch (view.getId()) {
             case R.id.btn_sort_price:
+                sortPrice = !sortPrice;
                 sortBy = sortPrice ? I.SORT_BY_PRICE_ASC : I.SORT_BY_PRICE_DESC;
                 arrowOriention = sortPrice ? getResources().getDrawable(R.drawable.arrow_order_up) :
                         getResources().getDrawable(R.drawable.arrow_order_down);
                 mBtnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,arrowOriention,null);
-                sortPrice = !sortPrice;
                 break;
             case R.id.btn_sort_addtime:
+                sortAddtime = !sortAddtime;
                 sortBy = sortAddtime ? I.SORT_BY_ADDTIME_ASC : I.SORT_BY_ADDTIME_DESC;
                 arrowOriention = sortAddtime ? getResources().getDrawable(R.drawable.arrow_order_up) :
                         getResources().getDrawable(R.drawable.arrow_order_down);
                 mBtnSortAddtime.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,arrowOriention,null);
-                sortAddtime = !sortAddtime;
                 break;
         }
         mNewGoodsFragment.setSortBy(sortBy);
