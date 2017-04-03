@@ -103,7 +103,7 @@ public class NewGoodsFragment extends Fragment {
 
         mrvGoods.setLayoutManager(manager);
         mrvGoods.setHasFixedSize(true);
-        adapter = new GoodsAdapter(getContext(), mList);
+        adapter = new GoodsAdapter(getContext(), mList); // 实例化GoodsAdapter，传入数据，进行相关设置
         mrvGoods.setAdapter(adapter);
         mrvGoods.addItemDecoration(new SpaceItemDecoration(12));
 

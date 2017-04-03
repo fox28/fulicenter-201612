@@ -5,16 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/layout_title"
-        layout="@layout/common_head_title"/>
+    <RelativeLayout
+        android:id="@+id/layout_filter"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/orange"
+        >
+        <LinearLayout
+            android:id="@+id/backClickArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
+        <com.example.apple.fulicenter.ui.view.CatFilterCategoryButton
+            android:id="@+id/cat_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="分类"
+            android:textSize="23sp"
+            android:textColor="@color/white"
+            android:background="@null"
+            android:drawableRight="@drawable/arrow2_down"
+            />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/layout_sort"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:background="@color/orange"
-        android:layout_below="@id/layout_title"
+        android:layout_below="@id/layout_filter"
         >
         <Button
             android:id="@+id/btn_sort_price"
