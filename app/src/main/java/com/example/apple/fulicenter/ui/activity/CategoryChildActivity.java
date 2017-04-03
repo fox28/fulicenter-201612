@@ -1,9 +1,11 @@
 package com.example.apple.fulicenter.ui.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +35,10 @@ public class CategoryChildActivity extends AppCompatActivity {
     TextView mTvCommonTitle;
     @BindView(R.id.fragment_container)
     FrameLayout mFragmentContainer;
+    @BindView(R.id.btn_sort_price)
+    Button mBtnSortPrice;
+    @BindView(R.id.btn_sort_addtime)
+    Button mBtnSortAddtime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,13 +59,20 @@ public class CategoryChildActivity extends AppCompatActivity {
 
     @OnClick({R.id.btn_sort_price, R.id.btn_sort_addtime})
     public void onSortClicked(View view) {
+        Drawable arrowOriention;
         switch (view.getId()) {
             case R.id.btn_sort_price:
-                sortBy = sortPrice?I.SORT_BY_PRICE_ASC:I.SORT_BY_PRICE_DESC;
+                sortBy = sortPrice ? I.SORT_BY_PRICE_ASC : I.SORT_BY_PRICE_DESC;
+                arrowOriention = sortPrice ? getResources().getDrawable(R.drawable.arrow_order_up) :
+                        getResources().getDrawable(R.drawable.arrow_order_down);
+                mBtnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,arrowOriention,null);
                 sortPrice = !sortPrice;
                 break;
             case R.id.btn_sort_addtime:
-                sortBy = sortAddtime?I.SORT_BY_ADDTIME_ASC:I.SORT_BY_ADDTIME_DESC;
+                sortBy = sortAddtime ? I.SORT_BY_ADDTIME_ASC : I.SORT_BY_ADDTIME_DESC;
+                arrowOriention = sortAddtime ? getResources().getDrawable(R.drawable.arrow_order_up) :
+                        getResources().getDrawable(R.drawable.arrow_order_down);
+                mBtnSortAddtime.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,arrowOriention,null);
                 sortAddtime = !sortAddtime;
                 break;
         }
