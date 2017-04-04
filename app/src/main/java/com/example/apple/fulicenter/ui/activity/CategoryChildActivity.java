@@ -10,9 +10,12 @@ import android.widget.FrameLayout;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.I;
+import com.example.apple.fulicenter.model.bean.CategoryChildBean;
 import com.example.apple.fulicenter.ui.fragment.NewGoodsFragment;
 import com.example.apple.fulicenter.ui.view.CatFilterCategoryButton;
 import com.example.apple.fulicenter.ui.view.MFGT;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +31,7 @@ public class CategoryChildActivity extends AppCompatActivity {
     int sortBy = I.SORT_BY_ADDTIME_DESC;
     NewGoodsFragment mNewGoodsFragment;
     String groupName;
+    List<CategoryChildBean> list;
 
 
     @BindView(R.id.fragment_container)
@@ -49,22 +53,20 @@ public class CategoryChildActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, mNewGoodsFragment)
                 .commit();
+
+        // 接收PopupWindow所需的相关数据
         groupName = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        list = (List<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.DATA);
         initView();
 
     }
 
-    private void initView() {
-        setGroupName();
-    }
-
     /**
-     * 设置Filter自定义控件标题：groupName
+     * 设置Filter的自定义控件标题groupName，添加小类集合
      */
-    private void setGroupName() {
-        mCatFilter.setText(groupName);
+    private void initView() {
+        mCatFilter.setGroupNameAndChlidlist(groupName, list);
     }
-
 
 
     @OnClick({R.id.btn_sort_price, R.id.btn_sort_addtime})

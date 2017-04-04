@@ -6,11 +6,15 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.example.apple.fulicenter.R;
+import com.example.apple.fulicenter.model.bean.CategoryChildBean;
+import com.example.apple.fulicenter.ui.adapter.CatFilterAdapter;
+
+import java.util.List;
 
 /**
  * Created by apple on 2017/4/3.
@@ -21,11 +25,34 @@ public class CatFilterCategoryButton extends Button {
     PopupWindow mPopupWindow;
     boolean isExpand = true;
 
+    GridView mGView;
+    CatFilterAdapter mAdapter;
+
+    /**
+     * butterKnife实例化
+     * @param context
+     * @param attrs
+     */
     public CatFilterCategoryButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         setCatFilterOnClickListener();
     }
+
+    public void setGroupNameAndChlidlist(String groupName, List<CategoryChildBean> list) {
+        // 设置自定义控件标题
+        this.setText(groupName);
+
+        mGView = new GridView(mContext);
+        mGView.setHorizontalSpacing(10);
+        mGView.setVerticalSpacing(10);
+        mGView.setNumColumns(GridView.AUTO_FIT);
+
+        mAdapter = new CatFilterAdapter(mContext, list);
+        mGView.setAdapter(mAdapter);
+
+    }
+
 
     private void setCatFilterOnClickListener() {
         this.setOnClickListener(new OnClickListener() {
@@ -56,11 +83,11 @@ public class CatFilterCategoryButton extends Button {
             mPopupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
             mPopupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
             mPopupWindow.setBackgroundDrawable(new ColorDrawable(0xdd000000));
-            TextView tv = new TextView(mContext);
+            /*TextView tv = new TextView(mContext);
             tv.setTextSize(23);
             tv.setTextColor(getResources().getColor(R.color.red));
-            tv.setText("测试文字测试文字测试文字测试文字测试文字");
-            mPopupWindow.setContentView(tv);
+            tv.setText("测试文字测试文字测试文字测试文字测试文字");*/
+            mPopupWindow.setContentView(mGView);
         }
         mPopupWindow.showAsDropDown(this);
     }

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@drawable/divid_explist_group"
+                android:background="@drawable/divide_explist_group"
     >
     <ImageView
         android:id="@+id/iv_group_thumb"

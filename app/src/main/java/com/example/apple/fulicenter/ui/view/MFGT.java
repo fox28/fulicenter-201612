@@ -7,10 +7,15 @@ import android.content.Intent;
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.BoutiqueBean;
+import com.example.apple.fulicenter.model.bean.CategoryChildBean;
 import com.example.apple.fulicenter.ui.activity.BoutiqueChildActivity;
 import com.example.apple.fulicenter.ui.activity.CategoryChildActivity;
 import com.example.apple.fulicenter.ui.activity.GoodsDetailActivity;
 import com.example.apple.fulicenter.ui.activity.MainActivity;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by apple on 2017/3/30.
@@ -53,10 +58,12 @@ public class MFGT {
         .putExtra(I.Goods.KEY_GOODS_ID, goodsId));
     }
 
-    public static void gotoCategoryChildActivity(Context context,int cat_id, String groupName) {
+    public static void gotoCategoryChildActivity(Context context, int cat_id,
+                                                 String groupName, ArrayList<CategoryChildBean> list) {
         startActivity((Activity)context, new Intent(context , CategoryChildActivity.class)
         .putExtra(I.NewAndBoutiqueGoods.CAT_ID, cat_id)
-        .putExtra(I.CategoryGroup.NAME, groupName));
+        .putExtra(I.CategoryGroup.NAME, groupName)
+        .putExtra(I.CategoryChild.DATA, list));
 
     }
 }
