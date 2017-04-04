@@ -97,4 +97,12 @@ public class CategoryChildActivity extends AppCompatActivity {
     public void onBackClick() {
         MFGT.finish(CategoryChildActivity.this);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mCatFilter != null) {
+            mCatFilter.release();
+        }
+    }
 }

@@ -93,4 +93,10 @@ public class CatFilterCategoryButton extends Button {
         }
         mPopupWindow.showAsDropDown(this);
     }
+
+    public void release() {
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+    }
 }
