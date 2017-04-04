@@ -34,7 +34,7 @@ public class CategoryFragment extends Fragment {
     private static final String TAG = CategoryFragment.class.getSimpleName();
 
     List<CategoryGroupBean> groupList;
-    List<List<CategoryChildBean>> childList;
+    List<ArrayList<CategoryChildBean>> childList;
     CategoryAdapter mAdapter;
     ICategoryModel mModel;
     int loadIndex = 0;
