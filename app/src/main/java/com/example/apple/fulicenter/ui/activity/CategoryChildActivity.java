@@ -15,6 +15,7 @@ import com.example.apple.fulicenter.ui.fragment.NewGoodsFragment;
 import com.example.apple.fulicenter.ui.view.CatFilterCategoryButton;
 import com.example.apple.fulicenter.ui.view.MFGT;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,7 +32,7 @@ public class CategoryChildActivity extends AppCompatActivity {
     int sortBy = I.SORT_BY_ADDTIME_DESC;
     NewGoodsFragment mNewGoodsFragment;
     String groupName;
-    List<CategoryChildBean> list;
+    ArrayList<CategoryChildBean> list;
 
 
     @BindView(R.id.fragment_container)
@@ -56,7 +57,7 @@ public class CategoryChildActivity extends AppCompatActivity {
 
         // 接收PopupWindow所需的相关数据
         groupName = getIntent().getStringExtra(I.CategoryGroup.NAME);
-        list = (List<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.DATA);
+        list = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.DATA);
         initView();
 
     }

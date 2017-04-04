@@ -14,6 +14,7 @@ import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.model.bean.CategoryChildBean;
 import com.example.apple.fulicenter.ui.adapter.CatFilterAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public class CatFilterCategoryButton extends Button {
     GridView mGView;
     CatFilterAdapter mAdapter;
 
+
     /**
      * butterKnife实例化
      * @param context
@@ -39,7 +41,7 @@ public class CatFilterCategoryButton extends Button {
         setCatFilterOnClickListener();
     }
 
-    public void setGroupNameAndChlidlist(String groupName, List<CategoryChildBean> list) {
+    public void setGroupNameAndChlidlist(String groupName, ArrayList<CategoryChildBean> list) {
         // 设置自定义控件标题
         this.setText(groupName);
 
@@ -48,7 +50,7 @@ public class CatFilterCategoryButton extends Button {
         mGView.setVerticalSpacing(10);
         mGView.setNumColumns(GridView.AUTO_FIT);
 
-        mAdapter = new CatFilterAdapter(mContext, list);
+        mAdapter = new CatFilterAdapter(mContext,list,groupName);
         mGView.setAdapter(mAdapter);
 
     }
