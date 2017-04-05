@@ -11,7 +11,9 @@ import com.example.apple.fulicenter.model.bean.CategoryChildBean;
 import com.example.apple.fulicenter.ui.activity.BoutiqueChildActivity;
 import com.example.apple.fulicenter.ui.activity.CategoryChildActivity;
 import com.example.apple.fulicenter.ui.activity.GoodsDetailActivity;
+import com.example.apple.fulicenter.ui.activity.LoginActivity;
 import com.example.apple.fulicenter.ui.activity.MainActivity;
+import com.example.apple.fulicenter.ui.activity.RegisterActivity;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -65,5 +67,13 @@ public class MFGT {
         .putExtra(I.CategoryGroup.NAME, groupName)
         .putExtra(I.CategoryChild.DATA, list));
 
+    }
+
+    public static void gotoRegisterActivity(Activity activity) {
+        startActivity(activity, RegisterActivity.class);
+    }
+
+    public static void gotoLoginActivity(Activity activity) {
+        startActivity(activity, LoginActivity.class);
     }
 }
