@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/common_head_title"
+                android:background="@color/white"
+
+    >
+    <LinearLayout
+        android:id="@+id/backClickArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_toRightOf="@id/backClickArea"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="40dp"
+        >
+        <TextView
+            android:id="@+id/tv_common_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="登录"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:paddingLeft="8dp"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

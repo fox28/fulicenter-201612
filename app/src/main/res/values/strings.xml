@@ -10,6 +10,7 @@
     <string name="password">Password</string>
     <string name="confirmpassword">Confirm Password</string>
     <string name="register">Register</string>
+    <string name="register_title">注册</string>
     <string name="user_name_connot_be_empty">user name connot be empty</string>
     <string name="illegal_user_name">illegal user name</string>
     <string name="nick_name_connot_be_empty">nick name connot be empty</string>
