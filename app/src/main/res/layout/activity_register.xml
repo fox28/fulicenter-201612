@@ -123,6 +123,7 @@
                 android:paddingLeft="10dip"
                 android:background="@null"
                 android:hint="@string/confirmpassword"
+                android:inputType="textPassword"
                 android:textSize="18sp"
                 android:textColor="#000"
                 android:singleLine="true"
