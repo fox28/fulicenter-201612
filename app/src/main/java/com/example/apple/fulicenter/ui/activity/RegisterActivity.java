@@ -1,6 +1,7 @@
 package com.example.apple.fulicenter.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -83,8 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Result result = ResultUtils.getResultFromJson(result_t, User.class);
                     if (result != null) {
                         if (result.isRetMsg()) {
-                            CommonUtils.showShortToast(getString(R.string.register_success));
-                            MFGT.finish(RegisterActivity.this);
+                            registerSuccess();
                         } else if (result.getRetCode() == I.MSG_REGISTER_USERNAME_EXISTS) {
                             CommonUtils.showShortToast(R.string.register_fail_exists);
                         } else {
@@ -101,6 +101,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void registerSuccess() {
+        setResult(RESULT_OK, new Intent().putExtra(I.User.USER_NAME, username));
+        CommonUtils.showShortToast(getString(R.string.register_success));
+        MFGT.finish(RegisterActivity.this);
     }
 
     private void showDialog() {
