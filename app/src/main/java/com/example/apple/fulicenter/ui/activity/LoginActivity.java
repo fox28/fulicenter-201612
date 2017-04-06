@@ -13,10 +13,12 @@ import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.Result;
 import com.example.apple.fulicenter.model.bean.User;
+import com.example.apple.fulicenter.model.dao.UserDao;
 import com.example.apple.fulicenter.model.net.IUserModel;
 import com.example.apple.fulicenter.model.net.OnCompleteListener;
 import com.example.apple.fulicenter.model.net.UserModel;
 import com.example.apple.fulicenter.model.utils.CommonUtils;
+import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.model.utils.MD5;
 import com.example.apple.fulicenter.model.utils.ResultUtils;
 import com.example.apple.fulicenter.model.utils.SharePreferenceUtils;
@@ -30,7 +32,7 @@ import butterknife.OnClick;
  * Created by apple on 2017/4/4.
  */
 public class LoginActivity extends AppCompatActivity {
-
+    private static final String TAG = LoginActivity.class.getSimpleName();
     ProgressDialog dialog;
     String username;
     String password;
@@ -98,9 +100,17 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void loginSuccess(User user) {
+    private void loginSuccess(final User user) {
+        L.e(TAG, "loginSuccess, user = "+user);
         FuLiCenterApplication.setCurrentUser(user);
         SharePreferenceUtils.getInstance().setUsername(user.getMuserName());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean b = UserDao.getInstance(LoginActivity.this).saveUserInfo(user);
+                L.e(TAG, "loginSuccess, b = " + b);
+            }
+        }).start(); // 别忘了start()!!!
         MFGT.finish(LoginActivity.this);
     }
 
@@ -127,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showDialog() {
         dialog = new ProgressDialog(LoginActivity.this);
-        dialog.setMessage(getString(R.string.registering));
+        dialog.setMessage(getString(R.string.logining));
         dialog.show();
     }
 
