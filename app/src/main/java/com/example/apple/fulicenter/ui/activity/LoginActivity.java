@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loginSuccess(User user) {
         FuLiCenterApplication.setCurrentUser(user);
         SharePreferenceUtils.getInstance().setUsername(user.getMuserName());
+        MFGT.finish(LoginActivity.this);
     }
 
     private boolean checkInput() {
