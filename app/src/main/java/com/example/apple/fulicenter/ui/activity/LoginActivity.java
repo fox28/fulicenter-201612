@@ -19,6 +19,7 @@ import com.example.apple.fulicenter.model.net.UserModel;
 import com.example.apple.fulicenter.model.utils.CommonUtils;
 import com.example.apple.fulicenter.model.utils.MD5;
 import com.example.apple.fulicenter.model.utils.ResultUtils;
+import com.example.apple.fulicenter.model.utils.SharePreferenceUtils;
 import com.example.apple.fulicenter.ui.view.MFGT;
 
 import butterknife.BindView;
@@ -99,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginSuccess(User user) {
         FuLiCenterApplication.setCurrentUser(user);
+        SharePreferenceUtils.getInstance().setUsername(user.getMuserName());
     }
 
     private boolean checkInput() {
