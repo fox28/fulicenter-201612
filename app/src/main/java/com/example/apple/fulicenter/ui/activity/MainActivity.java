@@ -2,6 +2,7 @@ package com.example.apple.fulicenter.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
@@ -12,6 +13,7 @@ import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.ui.fragment.BoutiqueFragment;
 import com.example.apple.fulicenter.ui.fragment.CategoryFragment;
 import com.example.apple.fulicenter.ui.fragment.NewGoodsFragment;
+import com.example.apple.fulicenter.ui.fragment.PersonalCenterFragment;
 import com.example.apple.fulicenter.ui.view.MFGT;
 
 import butterknife.BindView;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     NewGoodsFragment mNewGoodsFragment;
     BoutiqueFragment mBoutiqueFragment;
     CategoryFragment mCategoryFragment;
+    PersonalCenterFragment mPersonalCenterFragment;
     int index = 0;
     int currentIndex = 0;
     RadioButton[] mRadioButtons;
@@ -70,13 +73,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
-        mFragments = new Fragment[3];
+        mFragments = new Fragment[5];
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqueFragment = new BoutiqueFragment();
         mCategoryFragment = new CategoryFragment();
+        mPersonalCenterFragment = new PersonalCenterFragment();
         mFragments[0] = mNewGoodsFragment;
         mFragments[1] = mBoutiqueFragment;
         mFragments[2] = mCategoryFragment;
+        mFragments[4] = mPersonalCenterFragment;
     }
 
     public void onCheckedChange(View view) {
@@ -109,9 +114,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragment() {
-        if (currentIndex != index) {
+        /*if (currentIndex != index) {
             getSupportFragmentManager().beginTransaction()
                     .show(mFragments[index]).hide(mFragments[currentIndex]).commit();
+            currentIndex = index;
+        }*/
+        if (currentIndex != index) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.hide(mFragments[currentIndex]);
+            if (!mFragments[index].isAdded()) {
+                transaction.add(R.id.fragment_container, mFragments[index]);
+            }
+            transaction.show(mFragments[index]).commit();
             currentIndex = index;
         }
     }
