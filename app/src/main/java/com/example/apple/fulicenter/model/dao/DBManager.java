@@ -48,7 +48,7 @@ public class DBManager {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         if (db.isOpen()) {
             String sql = "SELECT * FROM " + UserDao.USER_TABLE_NAME
-                    + " where" + UserDao.USER_COLUMN_NAME + " = '" + username + "'";
+                    + " where " + UserDao.USER_COLUMN_NAME + " = '" + username + "'";
             Cursor cursor = db.rawQuery(sql, null);
             while (cursor.moveToNext()) {
                 User user = new User();
