@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.FuLiCenterApplication;
+import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.dao.UserDao;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
@@ -67,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onLogout() {
         UserDao.getInstance(SettingsActivity.this).logout();
         finish();
-        MFGT.gotoLoginActivity(SettingsActivity.this);
+        MFGT.gotoLoginActivity(SettingsActivity.this, I.REQUEST_CODE_LOGIN);
     }
 
 }

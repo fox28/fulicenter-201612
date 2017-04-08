@@ -69,7 +69,7 @@ public class MFGT {
     }
 
     public static void gotoRegisterActivity(Activity activity) {
-        startActivity(activity, RegisterActivity.class);
+//        startActivity(activity, RegisterActivity.class);
         startActivityForResult(activity, new Intent(activity,RegisterActivity.class),
                 I.REQUEST_CODE_REGISTER);
     }
@@ -82,8 +82,13 @@ public class MFGT {
     public static void gotoLoginActivity(Activity activity) {
         startActivity(activity, LoginActivity.class);
     }
+    public static void gotoLoginActivity(Activity activity, int requestCode) {
+        startActivityForResult(activity, new Intent(activity, LoginActivity.class), requestCode);
+    }
 
     public static void gotoSettingsActivity(Activity activity) {
         startActivity(activity, SettingsActivity.class);
     }
+
+
 }

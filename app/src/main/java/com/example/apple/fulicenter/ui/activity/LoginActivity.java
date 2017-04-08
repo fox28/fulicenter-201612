@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                 L.e(TAG, "loginSuccess, b = " + b);
             }
         }).start(); // 别忘了start()!!!
+        setResult(RESULT_OK);
         MFGT.finish(LoginActivity.this);
     }
 

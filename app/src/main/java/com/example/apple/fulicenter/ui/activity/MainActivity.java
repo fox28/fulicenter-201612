@@ -1,5 +1,6 @@
 package com.example.apple.fulicenter.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.widget.RadioButton;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.FuLiCenterApplication;
+import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.ui.fragment.BoutiqueFragment;
 import com.example.apple.fulicenter.ui.fragment.CategoryFragment;
@@ -97,14 +99,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.layout_cart:
                 if (FuLiCenterApplication.getCurrentUser() == null) {
-                    MFGT.gotoLoginActivity(MainActivity.this);
+                    MFGT.gotoLoginActivity(MainActivity.this, I.REQUEST_CODE_LOGIN_FROM_CART);
                 } else {
                     index = 3;
                 }
                 break;
             case R.id.layout_personal_center:
                 if (FuLiCenterApplication.getCurrentUser() == null) {
-                    MFGT.gotoLoginActivity(MainActivity.this);
+                    MFGT.gotoLoginActivity(MainActivity.this, I.REQUEST_CODE_LOGIN);
                 } else {
                     index = 4;
                 }
@@ -131,11 +133,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        L.e(TAG, "onActivityResult, index = "+index+", currentIndex = "+ currentIndex);
+        if (resultCode == RESULT_OK) {
+            // 点击购物车
+            if (requestCode == I.REQUEST_CODE_LOGIN_FROM_CART) {
+                index = 3;
+            }
+            // 点击个人中心
+            if (requestCode == I.REQUEST_CODE_LOGIN) {
+                index = 4;
+            }
+            setFragment();
+            setRadioButton();
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        L.e(TAG, "index = "+index+", currentIndex = "+ currentIndex);
+        L.e(TAG, "onResume, index = "+index+", currentIndex = "+ currentIndex);
         setRadioButton();
     }
+
 
     // 避免返回到MainActivity后底部button颜色显示不正确
     private void setRadioButton() {
