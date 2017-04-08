@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.model.bean.User;
+import com.example.apple.fulicenter.model.dao.UserDao;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
 import com.example.apple.fulicenter.ui.view.MFGT;
 
@@ -61,4 +62,12 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackClick() {
         MFGT.finish(SettingsActivity.this);
     }
+
+    @OnClick(R.id.btn_logout)
+    public void onLogout() {
+        UserDao.getInstance(SettingsActivity.this).logout();
+        finish();
+        MFGT.gotoLoginActivity(SettingsActivity.this);
+    }
+
 }

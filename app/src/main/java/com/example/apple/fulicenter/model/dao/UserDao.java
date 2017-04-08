@@ -2,7 +2,9 @@ package com.example.apple.fulicenter.model.dao;
 
 import android.content.Context;
 
+import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.model.bean.User;
+import com.example.apple.fulicenter.model.utils.SharePreferenceUtils;
 
 /**
  * Created by apple on 2017/4/6.
@@ -41,5 +43,11 @@ public class UserDao {
             return  null;
         }
         return DBManager.getInstance().getUserInfo(username);
+    }
+
+    public void logout() {
+        FuLiCenterApplication.setCurrentUser(null);
+        SharePreferenceUtils.getInstance().removeUsername();
+        DBManager.getInstance().closeDB();
     }
 }
