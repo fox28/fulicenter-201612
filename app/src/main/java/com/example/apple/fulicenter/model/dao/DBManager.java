@@ -39,7 +39,7 @@ public class DBManager {
             values.put(UserDao.USER_COLUMN_AVATAR_SUFFIX,user.getMavatarSuffix());
             values.put(UserDao.USER_COLUMN_AVATAR_UPDATE_TIME,user.getMavatarLastUpdateTime());
             // 返回值为插入记录的行号，-1表示插入失败
-            return database.insert(UserDao.USER_TABLE_NAME,null,values) != -1;
+            return database.replace(UserDao.USER_TABLE_NAME,null,values) != -1;
         }
         return false;
     }
