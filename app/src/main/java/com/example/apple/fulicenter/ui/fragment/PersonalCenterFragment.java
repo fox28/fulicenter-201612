@@ -23,7 +23,9 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+
 
 /**
  * Created by apple on 2017/4/7.
@@ -102,8 +104,11 @@ public class PersonalCenterFragment extends Fragment {
                 new String[]{"order"}, new int[]{R.id.iv_order});
         mCenterUserOrderLis.setAdapter(adapter);
 
-
     }
 
-
+    @OnClick({R.id.center_top, R.id.center_user_info})
+    public void goSettingsActivity(View view) {
+        MFGT.gotoSettingsActivity(getActivity());
+    }
 }
+

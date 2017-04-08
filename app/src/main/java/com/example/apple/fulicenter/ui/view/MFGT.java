@@ -14,10 +14,9 @@ import com.example.apple.fulicenter.ui.activity.GoodsDetailActivity;
 import com.example.apple.fulicenter.ui.activity.LoginActivity;
 import com.example.apple.fulicenter.ui.activity.MainActivity;
 import com.example.apple.fulicenter.ui.activity.RegisterActivity;
+import com.example.apple.fulicenter.ui.activity.SettingsActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by apple on 2017/3/30.
@@ -82,5 +81,9 @@ public class MFGT {
 
     public static void gotoLoginActivity(Activity activity) {
         startActivity(activity, LoginActivity.class);
+    }
+
+    public static void gotoSettingsActivity(Activity activity) {
+        startActivity(activity, SettingsActivity.class);
     }
 }
