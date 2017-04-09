@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
+        <!--头像-->
         <RelativeLayout
             android:id="@+id/layout_user_profile_avatar"
             android:layout_width="fill_parent"
@@ -50,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/gray_pressed"/>
+        <!--上面是分隔线，下面是用户账户名称-->
         <RelativeLayout
             android:id="@+id/layout_user_profile_username"
             android:layout_width="match_parent"
@@ -94,6 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/gray_pressed"/>
+        <!--用户昵称-->
         <RelativeLayout
             android:id="@+id/layout_user_profile_nickname"
             android:layout_width="match_parent"
