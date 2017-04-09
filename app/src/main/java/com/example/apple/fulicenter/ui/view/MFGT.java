@@ -15,6 +15,7 @@ import com.example.apple.fulicenter.ui.activity.LoginActivity;
 import com.example.apple.fulicenter.ui.activity.MainActivity;
 import com.example.apple.fulicenter.ui.activity.RegisterActivity;
 import com.example.apple.fulicenter.ui.activity.SettingsActivity;
+import com.example.apple.fulicenter.ui.activity.UpdateNickActivity;
 
 import java.util.ArrayList;
 
@@ -91,4 +92,7 @@ public class MFGT {
     }
 
 
+    public static void gotoUpdateNickActivity(Activity activity) {
+        startActivity(activity, UpdateNickActivity.class);
+    }
 }

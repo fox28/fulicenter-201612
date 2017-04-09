@@ -69,6 +69,7 @@ public class PersonalCenterFragment extends Fragment {
 
     }
 
+    // 重新登录的时候，更新个人中心的账号信息，防止显示上个登录账号的信息
     @Override
     public void onResume() {
         super.onResume();

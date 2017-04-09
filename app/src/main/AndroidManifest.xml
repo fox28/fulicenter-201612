@@ -24,7 +24,8 @@
         <activity android:name=".ui.activity.CategoryChildActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.RegisterActivity"/>
-        <activity android:name=".ui.activity.SettingsActivity"/>
+        <activity android:name=".ui.activity.SettingsActivity"/>\
+        <activity android:name=".ui.activity.UpdateNickActivity"/>
     </application>
 
 </manifest>

@@ -35,4 +35,15 @@ public class UserModel implements IUserModel {
                 .post()
                 .execute(listener);
     }
+
+    @Override
+    public void updateNick(Context context, String username, String newNick, OnCompleteListener<String> listener) {
+        // http://101.251.196.90:8080/FuLiCenterServerV2.0/updateNick?m_user_name=qwer159&m_user_nick=123
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_USER_NICK)
+                .addParam(I.User.USER_NAME, username)
+                .addParam(I.User.NICK, newNick)
+                .targetClass(String.class)
+                .execute(listener);
+    }
 }

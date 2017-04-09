@@ -38,13 +38,18 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
+        mTvCommonTitle.setText(getString(R.string.user_profile));
         initData();
+    }
 
-
+    //修改昵称后界面更新数据
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initData() {
-        mTvCommonTitle.setText(getString(R.string.user_profile));
         User user = FuLiCenterApplication.getCurrentUser();
         if (user != null) {
             showUserInfo(user);
@@ -56,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void showUserInfo(User user) {
         mTvUserProfileName.setText(user.getMuserName());
         mTvUserProfileNick.setText(user.getMuserNick());
-        ImageLoader.downloadImg(SettingsActivity.this,mIvUserProfileAvatar,user.getAvatar());
+        ImageLoader.downloadImg(SettingsActivity.this, mIvUserProfileAvatar, user.getAvatar());
     }
 
     @OnClick(R.id.backClickArea)
@@ -71,4 +76,8 @@ public class SettingsActivity extends AppCompatActivity {
         MFGT.gotoLoginActivity(SettingsActivity.this, I.REQUEST_CODE_LOGIN);
     }
 
+    @OnClick(R.id.layout_user_profile_nickname)
+    public void updateNick() {
+        MFGT.gotoUpdateNickActivity(SettingsActivity.this);
+    }
 }
