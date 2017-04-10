@@ -1,5 +1,7 @@
 package com.example.apple.fulicenter.ui.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +13,10 @@ import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.dao.UserDao;
+import com.example.apple.fulicenter.model.utils.CommonUtils;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
+import com.example.apple.fulicenter.model.utils.L;
+import com.example.apple.fulicenter.model.utils.OnSetAvatarListener;
 import com.example.apple.fulicenter.ui.view.MFGT;
 
 import butterknife.BindView;
@@ -23,6 +28,12 @@ import butterknife.OnClick;
  */
 
 public class SettingsActivity extends AppCompatActivity {
+    private static final String TAG = SettingsActivity.class.getSimpleName();
+
+    OnSetAvatarListener mOnSetAvatarListener;
+    User user;
+    String avatarName;
+
 
     @BindView(R.id.tv_common_title)
     TextView mTvCommonTitle;
@@ -50,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        User user = FuLiCenterApplication.getCurrentUser();
+        user = FuLiCenterApplication.getCurrentUser();
         if (user != null) {
             showUserInfo(user);
         } else {
@@ -69,6 +80,31 @@ public class SettingsActivity extends AppCompatActivity {
         MFGT.finish(SettingsActivity.this);
     }
 
+    @OnClick(R.id.layout_user_profile_avatar)
+    public void avatarOnClick() {
+        mOnSetAvatarListener = new OnSetAvatarListener(SettingsActivity.this, R.id.layout_user_profile_avatar,
+                getAvatarName(), I.AVATAR_TYPE);
+    }
+    /**
+     * 获取头像文件的名字
+     * @return
+     */
+    private String getAvatarName() {
+        avatarName = user.getMuserName()+System.currentTimeMillis();
+        L.e(TAG, "avatarName = " + avatarName);
+        return  avatarName;
+    }
+
+    @OnClick(R.id.layout_user_profile_username)
+    public void usernameOnClick() {
+        CommonUtils.showShortToast(R.string.username_connot_be_modify);
+    }
+
+    @OnClick(R.id.layout_user_profile_nickname)
+    public void updateNick() {
+        MFGT.gotoUpdateNickActivity(SettingsActivity.this);
+    }
+
     @OnClick(R.id.btn_logout)
     public void onLogout() {
         UserDao.getInstance(SettingsActivity.this).logout();
@@ -76,8 +112,22 @@ public class SettingsActivity extends AppCompatActivity {
         MFGT.gotoLoginActivity(SettingsActivity.this, I.REQUEST_CODE_LOGIN);
     }
 
-    @OnClick(R.id.layout_user_profile_nickname)
-    public void updateNick() {
-        MFGT.gotoUpdateNickActivity(SettingsActivity.this);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Uri data1 = getIntent().getData();
+            if (requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO) {
+                uploadAvatar();
+            }
+            mOnSetAvatarListener.setAvatar(requestCode,data, mIvUserProfileAvatar);
+        }
+    }
+
+    /**
+     * 上传头像设置
+     */
+    private void uploadAvatar() {
+
     }
 }
