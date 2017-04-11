@@ -2,6 +2,8 @@ package com.example.apple.fulicenter.model.net;
 
 import android.content.Context;
 
+import com.example.apple.fulicenter.model.bean.MessageBean;
+
 import java.io.File;
 
 /**
@@ -18,4 +20,6 @@ public interface IUserModel {
                     OnCompleteListener<String> listener);
 
     void updateAvatar(Context context, String username, File file, OnCompleteListener<String> listener);
+
+    void loadCollectCount(Context context, String username, OnCompleteListener<MessageBean> listener);
 }

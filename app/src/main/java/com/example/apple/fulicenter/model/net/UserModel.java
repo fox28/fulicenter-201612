@@ -3,6 +3,7 @@ package com.example.apple.fulicenter.model.net;
 import android.content.Context;
 
 import com.example.apple.fulicenter.application.I;
+import com.example.apple.fulicenter.model.bean.MessageBean;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.utils.OkHttpUtils;
 
@@ -59,6 +60,16 @@ public class UserModel implements IUserModel {
                 .targetClass(String.class)
                 .addFile2(file)
                 .post()
+                .execute(listener);
+    }
+
+    @Override
+    public void loadCollectCount(Context context, String username, OnCompleteListener<MessageBean> listener) {
+        // http://101.251.196.90:8080/FuLiCenterServerV2.0/findCollectCount?userName=qwer159
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
+                .addParam(I.Collect.USER_NAME, username)
+                .targetClass(MessageBean.class)
                 .execute(listener);
     }
 }

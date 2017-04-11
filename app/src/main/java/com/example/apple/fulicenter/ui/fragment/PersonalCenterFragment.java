@@ -13,7 +13,11 @@ import android.widget.TextView;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.FuLiCenterApplication;
+import com.example.apple.fulicenter.model.bean.MessageBean;
 import com.example.apple.fulicenter.model.bean.User;
+import com.example.apple.fulicenter.model.net.IUserModel;
+import com.example.apple.fulicenter.model.net.OnCompleteListener;
+import com.example.apple.fulicenter.model.net.UserModel;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.ui.view.MFGT;
@@ -33,6 +37,8 @@ import butterknife.Unbinder;
 
 public class PersonalCenterFragment extends Fragment {
     private static final String TAG = PersonalCenterFragment.class.getSimpleName();
+    IUserModel model;
+    User mUser;
 
     @BindView(R.id.iv_user_avatar)
     ImageView mIvUserAvatar;
@@ -41,7 +47,6 @@ public class PersonalCenterFragment extends Fragment {
     @BindView(R.id.tv_collect_count)
     TextView mTvCollectCount;
     Unbinder unbinder;
-    User mUser;
     @BindView(R.id.center_user_order_lis)
     GridView mCenterUserOrderLis;
 
@@ -63,6 +68,7 @@ public class PersonalCenterFragment extends Fragment {
             showUserInfo();
             initOrderList();
         }*/
+        model = new UserModel();
         initOrderList();
         initData();
 
@@ -80,15 +86,34 @@ public class PersonalCenterFragment extends Fragment {
         mUser = FuLiCenterApplication.getCurrentUser();
         if (mUser != null) {
             showUserInfo();
-
+            loadCollectCount(); // 个人中心界面加载商品的收藏数量
         }
     }
-
     private void showUserInfo() {
         mTvUserName.setText(mUser.getMuserNick());
 //        ImageLoader.downloadImg(getContext(), mIvUserAvatar, mUser.getAvatar());
         ImageLoader.setAvatar(mUser.getAvatar(), getContext(),mIvUserAvatar);
         L.e(TAG, "mUser.getAvatar = " + mUser.getAvatar());
+    }
+
+    /**
+     * 个人中心界面加载商品收藏的数量
+     */
+    private void loadCollectCount() {
+        model.loadCollectCount(getContext(), mUser.getMuserName(), new OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean msg) {
+                if (msg != null && msg.isSuccess()) {
+                    mTvCollectCount.setText(msg.getMsg());
+                } else {
+                    mTvCollectCount.setText("0");
+                }
+            }
+            @Override
+            public void onError(String error) {
+                mTvCollectCount.setText("0");
+            }
+        });
     }
 
     @Override
