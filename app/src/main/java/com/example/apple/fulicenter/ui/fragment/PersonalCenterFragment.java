@@ -86,7 +86,8 @@ public class PersonalCenterFragment extends Fragment {
 
     private void showUserInfo() {
         mTvUserName.setText(mUser.getMuserNick());
-        ImageLoader.downloadImg(getContext(), mIvUserAvatar, mUser.getAvatar());
+//        ImageLoader.downloadImg(getContext(), mIvUserAvatar, mUser.getAvatar());
+        ImageLoader.setAvatar(ImageLoader.getAvatarUrl(mUser), getContext(),mIvUserAvatar);
         L.e(TAG, "mUser.getAvatar = " + mUser.getAvatar());
     }
 
