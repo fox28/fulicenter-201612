@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.apple.fulicenter.R;
+import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.AlbumsBean;
 import com.example.apple.fulicenter.model.bean.GoodsDetailsBean;
+import com.example.apple.fulicenter.model.bean.MessageBean;
+import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.net.GoodsModel;
 import com.example.apple.fulicenter.model.net.IGoodsModel;
 import com.example.apple.fulicenter.model.net.OnCompleteListener;
@@ -44,6 +48,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
     FlowIndicator mFlowIndicator;
     @BindView(R.id.wv_good_brief)
     WebView mWvGoodBrief;
+    @BindView(R.id.iv_good_collect)
+    ImageView mIvGoodCollect;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,25 +63,65 @@ public class GoodsDetailActivity extends AppCompatActivity {
         }
         model = new GoodsModel();
         initData();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void initData() {
-        model.downloadData(this, goodsId, new OnCompleteListener<GoodsDetailsBean>() {
-            @Override
-            public void onSuccess(GoodsDetailsBean result) {
-                if (result != null) {
-                    bean = result;
-                    showDetails();
+        // 只有当bean为空的时候，才加载GoodsDetailsBean bean ，否则单独下载收藏状态loadCollectStatus
+        if (bean == null) {
+            model.downloadData(this, goodsId, new OnCompleteListener<GoodsDetailsBean>() {
+                @Override
+                public void onSuccess(GoodsDetailsBean result) {
+                    if (result != null) {
+                        bean = result;
+                        showDetails();
+                    }
                 }
-            }
 
-            @Override
-            public void onError(String error) {
-                CommonUtils.showShortToast(error);// 提示失败信息
-            }
-        });
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showShortToast(error);// 提示失败信息
+                }
+            });
+        }
+        loadCollectStatus();
+    }
 
+    private void loadCollectStatus() {
+        User user = FuLiCenterApplication.getCurrentUser();
+        if (user != null) {
+            model.loadCollectStatus(GoodsDetailActivity.this, goodsId, user.getMuserName(),
+                    new OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean msg) {
+                            if (msg != null && msg.isSuccess()) {
+                                setCollectStatus(true);
+                            } else {
+                                setCollectStatus(false);
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            setCollectStatus(false);
+                        }
+                    });
+        }
+    }
+
+    /**
+     * 设置收藏图标的状态，mIvGoodCollect
+     * id：iv_good_collect
+     * @param isCollect
+     */
+    private void setCollectStatus(boolean isCollect) {
+        mIvGoodCollect.setImageResource(isCollect?
+        R.mipmap.bg_collect_out:R.mipmap.bg_collect_in);
     }
 
     private void showDetails() {
@@ -83,7 +129,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         mTvGoodName.setText(bean.getGoodsName());
         mTvGoodPriceShop.setText(bean.getShopPrice());
         mTvGoodPriceCurrent.setText(bean.getCurrencyPrice());
-        mSalv.startPlayLoop(mFlowIndicator,getAlbumUrl(), getAlbumCount());
+        mSalv.startPlayLoop(mFlowIndicator, getAlbumUrl(), getAlbumCount());
         mWvGoodBrief.loadDataWithBaseURL(null, bean.getGoodsBrief(), I.TEXT_HTML, I.UTF_8, null);
 
     }
@@ -101,7 +147,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             if (albums != null && albums.length > 0) {
                 String[] urls = new String[albums.length];
                 for (int i = 0; i < albums.length; i++) {
-                   urls[i] = albums[i].getImgUrl();
+                    urls[i] = albums[i].getImgUrl();
                 }
                 return urls;
             }
