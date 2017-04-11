@@ -1,6 +1,7 @@
 package com.example.apple.fulicenter.ui.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,12 +30,17 @@ import android.widget.TextView;
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.application.I;
+import com.example.apple.fulicenter.model.bean.Result;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.dao.UserDao;
+import com.example.apple.fulicenter.model.net.IUserModel;
+import com.example.apple.fulicenter.model.net.OnCompleteListener;
+import com.example.apple.fulicenter.model.net.UserModel;
 import com.example.apple.fulicenter.model.utils.CommonUtils;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.model.utils.OnSetAvatarListener;
+import com.example.apple.fulicenter.model.utils.ResultUtils;
 import com.example.apple.fulicenter.ui.utils.ClipImageActivity;
 import com.example.apple.fulicenter.ui.utils.view.CircleImageView;
 import com.example.apple.fulicenter.ui.view.MFGT;
@@ -59,6 +65,9 @@ public class SettingsActivity extends AppCompatActivity {
     User user;
     String avatarName;
     Bundle mBundle;
+    ProgressDialog dialog;
+    IUserModel model;
+
 
     @BindView(R.id.tv_common_title)
     TextView mTvCommonTitle;
@@ -98,7 +107,8 @@ public class SettingsActivity extends AppCompatActivity {
     private void showUserInfo(User user) {
         mTvUserProfileName.setText(user.getMuserName());
         mTvUserProfileNick.setText(user.getMuserNick());
-        ImageLoader.downloadImg(SettingsActivity.this, mIvUserProfileAvatar, user.getAvatar());
+//        ImageLoader.downloadImg(SettingsActivity.this, mIvUserProfileAvatar, user.getAvatar());
+        ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),SettingsActivity.this, mIvUserProfileAvatar);
     }
 
     @OnClick(R.id.backClickArea)
@@ -352,11 +362,59 @@ public class SettingsActivity extends AppCompatActivity {
                     //......
                     File file = saveBitmapFile(bitMap);
                     L.e(TAG, "file = " + file.getAbsolutePath());
+                    updateAvatar(file);
 
                 }
                 break;
         }
     }
+
+    private void updateAvatar(File file) {
+        showDialog();
+        model = new UserModel();
+        model.updateAvatar(SettingsActivity.this, user.getMuserName(), file,
+                new OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String result_t) {
+                Result result = ResultUtils.getResultFromJson(result_t, User.class);
+                if (result.isRetMsg()) {
+                    User u = (User) result.getRetData();
+                    updateSuccess(u);
+                } else if (result.getRetCode() == I.MSG_UPLOAD_AVATAR_FAIL) {
+                    CommonUtils.showShortToast(R.string.update_user_avatar_fail);
+                }
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onError(String error) {
+                CommonUtils.showShortToast(R.string.update_user_avatar_fail);
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void updateSuccess(final User u) {
+        L.e(TAG, "updateSuccess, u = " +u);
+        FuLiCenterApplication.setCurrentUser(u);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean b = UserDao.getInstance(SettingsActivity.this).saveUserInfo(u);
+                L.e(TAG, "updateSuccess, b=" +b);
+            }
+        }).start();
+        // 提示更新头像成功
+        CommonUtils.showShortToast(R.string.update_user_avatar_success);
+        initData();
+    }
+
+    private void showDialog() {
+        dialog = new ProgressDialog(SettingsActivity.this);
+        dialog.setMessage(getString(R.string.update_user_avatar));
+        dialog.show();
+    }
+
 
     /**
      * 返回头像保存在sd卡的位置:

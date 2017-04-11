@@ -6,6 +6,8 @@ import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.utils.OkHttpUtils;
 
+import java.io.File;
+
 /**
  * Created by apple on 2017/4/5.
  */
@@ -44,6 +46,19 @@ public class UserModel implements IUserModel {
                 .addParam(I.User.USER_NAME, username)
                 .addParam(I.User.NICK, newNick)
                 .targetClass(String.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void updateAvatar(Context context, String username, File file, OnCompleteListener<String> listener) {
+        // http://101.251.196.90:8080/FuLiCenterServerV2.0/updateAvatar?name_or_hxid=qwer159&avatarType=user_avatar
+        OkHttpUtils<String> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_AVATAR)
+                .addParam(I.NAME_OR_HXID, username)
+                .addParam(I.AVATAR_TYPE, I.AVATAR_TYPE_USER_PATH)
+                .targetClass(String.class)
+                .addFile2(file)
+                .post()
                 .execute(listener);
     }
 }

@@ -2,6 +2,8 @@ package com.example.apple.fulicenter.model.net;
 
 import android.content.Context;
 
+import java.io.File;
+
 /**
  * Created by apple on 2017/4/5.
  */
@@ -14,4 +16,6 @@ public interface IUserModel {
 
     void updateNick(Context context, String username, String newNick,
                     OnCompleteListener<String> listener);
+
+    void updateAvatar(Context context, String username, File file, OnCompleteListener<String> listener);
 }
