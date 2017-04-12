@@ -75,7 +75,7 @@ public class PersonalCenterFragment extends Fragment {
 
     }
 
-    // 重新登录的时候，更新个人中心的账号信息，防止显示上个登录账号的信息
+    // 重新登录的时候，更新个人中心的账号信息，防止显示其他账号(上次登录)的信息
     @Override
     public void onResume() {
         super.onResume();
@@ -153,6 +153,11 @@ public class PersonalCenterFragment extends Fragment {
     @OnClick({R.id.center_top, R.id.center_user_info})
     public void goSettingsActivity(View view) {
         MFGT.gotoSettingsActivity(getActivity());
+    }
+
+    @OnClick(R.id.layout_center_collect)
+    public void findCollects() {
+        MFGT.gotoCollectsActivity(getActivity());
     }
 }
 

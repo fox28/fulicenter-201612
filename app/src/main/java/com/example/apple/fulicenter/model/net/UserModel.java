@@ -3,6 +3,7 @@ package com.example.apple.fulicenter.model.net;
 import android.content.Context;
 
 import com.example.apple.fulicenter.application.I;
+import com.example.apple.fulicenter.model.bean.CollectBean;
 import com.example.apple.fulicenter.model.bean.MessageBean;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.utils.OkHttpUtils;
@@ -70,6 +71,18 @@ public class UserModel implements IUserModel {
         utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
                 .addParam(I.Collect.USER_NAME, username)
                 .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void loadCollects(Context context, String username, int page_id, int page_size, OnCompleteListener<CollectBean[]> listener) {
+        // http://101.251.196.90:8080/FuLiCenterServerV2.0/findCollects?userName=abc159&page_id=1&page_size=10
+        OkHttpUtils<CollectBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
+                .addParam(I.Collect.USER_NAME, username)
+                .addParam(I.PAGE_ID, String.valueOf(page_id))
+                .addParam(I.PAGE_SIZE, String.valueOf(page_size))
+                .targetClass(CollectBean[].class)
                 .execute(listener);
     }
 }

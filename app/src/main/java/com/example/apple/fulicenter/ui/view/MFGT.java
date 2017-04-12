@@ -3,6 +3,7 @@ package com.example.apple.fulicenter.ui.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.I;
@@ -10,6 +11,7 @@ import com.example.apple.fulicenter.model.bean.BoutiqueBean;
 import com.example.apple.fulicenter.model.bean.CategoryChildBean;
 import com.example.apple.fulicenter.ui.activity.BoutiqueChildActivity;
 import com.example.apple.fulicenter.ui.activity.CategoryChildActivity;
+import com.example.apple.fulicenter.ui.activity.CollectsActivity;
 import com.example.apple.fulicenter.ui.activity.GoodsDetailActivity;
 import com.example.apple.fulicenter.ui.activity.LoginActivity;
 import com.example.apple.fulicenter.ui.activity.MainActivity;
@@ -94,5 +96,9 @@ public class MFGT {
 
     public static void gotoUpdateNickActivity(Activity activity) {
         startActivity(activity, UpdateNickActivity.class);
+    }
+
+    public static void gotoCollectsActivity(Activity activity) {
+        startActivity(activity, CollectsActivity.class);
     }
 }
