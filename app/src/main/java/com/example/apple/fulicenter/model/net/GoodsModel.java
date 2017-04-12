@@ -24,10 +24,18 @@ public class GoodsModel implements IGoodsModel {
     }
 
     @Override
-    public void loadCollectStatus(Context context, int goodsId, String username, OnCompleteListener<MessageBean> listener) {
+    public void operateCollect(Context context, int action, int goodsId, String username, OnCompleteListener<MessageBean> listener) {
         // http://101.251.196.90:8080/FuLiCenterServerV2.0/isCollect?goods_id=5918&userName=qwer159
+        // http://101.251.196.90:8080/FuLiCenterServerV2.0/deleteCollect?goods_id=7672&userName=qwer159
+        // http://101.251.196.90:8080/FuLiCenterServerV2.0/addCollect?goods_id=7672&userName=qwer159
+        String request = I.REQUEST_IS_COLLECT;
+        if (action == I.ACTION_ADD_COLLECT) {
+            request = I.REQUEST_ADD_COLLECT;
+        } else if (action == I.ACTION_DELETE_COLLECT) {
+            request = I.REQUEST_DELETE_COLLECT;
+        }
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
-        utils.setRequestUrl(I.REQUEST_IS_COLLECT)
+        utils.setRequestUrl(request)
                 .addParam(I.Collect.GOODS_ID, goodsId+"")
                 .addParam(I.Collect.USER_NAME, username)
                 .targetClass(MessageBean.class)

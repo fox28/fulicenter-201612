@@ -48,6 +48,8 @@ public interface I {
     String ACTION_TYPE_CART = "cart";
 
     /** 添加收藏*/
+    int ACTION_IS_COLLECT=0;
+    /** 添加收藏*/
     int ACTION_ADD_COLLECT=1;
     /** 取消收藏*/
     int ACTION_DELETE_COLLECT=2;

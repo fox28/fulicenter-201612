@@ -15,5 +15,5 @@ public interface IGoodsModel {
 
     void downloadData(Context context, int goodsId,OnCompleteListener<GoodsDetailsBean> listener);
 
-    void loadCollectStatus(Context context, int goodsId, String username, OnCompleteListener<MessageBean> listener);
+    void operateCollect(Context context, int action, int goodsId, String username, OnCompleteListener<MessageBean> listener);
 }
