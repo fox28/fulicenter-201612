@@ -19,6 +19,7 @@ import com.example.apple.fulicenter.model.net.IGoodsModel;
 import com.example.apple.fulicenter.model.net.OnCompleteListener;
 import com.example.apple.fulicenter.model.utils.CommonUtils;
 import com.example.apple.fulicenter.model.utils.L;
+import com.example.apple.fulicenter.ui.utils.AntiShake;
 import com.example.apple.fulicenter.ui.view.FlowIndicator;
 import com.example.apple.fulicenter.ui.view.MFGT;
 import com.example.apple.fulicenter.ui.view.SlideAutoLoopView;
@@ -31,6 +32,8 @@ import butterknife.OnClick;
  * Created by apple on 2017/3/30.
  */
 public class GoodsDetailActivity extends AppCompatActivity {
+    AntiShake util = new AntiShake();
+
     private static final String TAG = "GoodsDetailActivity";
     IGoodsModel model;
     int goodsId = 0;
@@ -186,7 +189,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.iv_good_collect)
-    public void onOperateCollect() {
+    public void onCollectGoods() {
+        if(util.check()) return;
         User user = FuLiCenterApplication.getCurrentUser();
         if (user == null) {
             MFGT.gotoLoginActivity(this, 0);
