@@ -21,6 +21,7 @@ import com.example.apple.fulicenter.model.utils.CommonUtils;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.model.utils.ResultUtils;
 import com.example.apple.fulicenter.ui.adapter.CollectsAdapter;
+import com.example.apple.fulicenter.ui.view.MFGT;
 import com.example.apple.fulicenter.ui.view.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -51,12 +53,14 @@ public class CollectsActivity extends AppCompatActivity {
     @BindView(R.id.tv_nomore)
     TextView mTvNomore;
     Unbinder unbinder;
+    @BindView(R.id.tv_common_title)
+    TextView mTvCommonTitle;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_new_goods);
+        setContentView(R.layout.activity_collects);
         unbinder = ButterKnife.bind(this);
         model = new UserModel();
         initView();
@@ -72,7 +76,7 @@ public class CollectsActivity extends AppCompatActivity {
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green)
         );
-        manager = new GridLayoutManager(this,I.COLUM_NUM);
+        manager = new GridLayoutManager(this, I.COLUM_NUM);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -88,6 +92,7 @@ public class CollectsActivity extends AppCompatActivity {
         mRvGoods.setAdapter(adapter);
         // 增加间距
         mRvGoods.addItemDecoration(new SpaceItemDecoration(12));
+        mTvCommonTitle.setText(getString(R.string.collect_title));// 收藏列表添加title
     }
 
     private void setListener() {
@@ -103,7 +108,7 @@ public class CollectsActivity extends AppCompatActivity {
                 int lastPositon = manager.findLastVisibleItemPosition();
                 if (newState == recyclerView.SCROLL_STATE_IDLE
                         && adapter.isMore()
-                        &&lastPositon == adapter.getItemCount()-1) {
+                        && lastPositon == adapter.getItemCount() - 1) {
                     pageId++;
                     initData(I.ACTION_PULL_UP);
                 }
@@ -117,6 +122,7 @@ public class CollectsActivity extends AppCompatActivity {
             }
         });
     }
+
     private void setPullDownListener() {
         // 下拉刷新
         mSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -181,5 +187,10 @@ public class CollectsActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.backClickArea)
+    public void onViewClicked() {
+        MFGT.finish(CollectsActivity.this);
     }
 }
