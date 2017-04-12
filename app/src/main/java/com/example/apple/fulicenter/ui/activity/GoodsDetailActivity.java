@@ -18,6 +18,7 @@ import com.example.apple.fulicenter.model.net.GoodsModel;
 import com.example.apple.fulicenter.model.net.IGoodsModel;
 import com.example.apple.fulicenter.model.net.OnCompleteListener;
 import com.example.apple.fulicenter.model.utils.CommonUtils;
+import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.ui.view.FlowIndicator;
 import com.example.apple.fulicenter.ui.view.MFGT;
 import com.example.apple.fulicenter.ui.view.SlideAutoLoopView;
@@ -30,6 +31,7 @@ import butterknife.OnClick;
  * Created by apple on 2017/3/30.
  */
 public class GoodsDetailActivity extends AppCompatActivity {
+    private static final String TAG = "GoodsDetailActivity";
     IGoodsModel model;
     int goodsId = 0;
     GoodsDetailsBean bean;
@@ -96,27 +98,47 @@ public class GoodsDetailActivity extends AppCompatActivity {
     private void loadCollectStatus() {
         User user = FuLiCenterApplication.getCurrentUser();
         if (user != null) {
-            model.operateCollect(GoodsDetailActivity.this, I.ACTION_IS_COLLECT, goodsId, user.getMuserName(),
-                    new OnCompleteListener<MessageBean>() {
-                        @Override
-                        public void onSuccess(MessageBean msg) {
-                            if (msg != null && msg.isSuccess()) {
-                                isCollect =true;
+            operateCollect(I.ACTION_IS_COLLECT, user);
+        }
+    }
 
-                            } else {
-                                isCollect =false;
+    /**
+     * mIvGoodCollect对于收藏的操作集合在一起
+     * @param action
+     * @param user
+     */
+    private void operateCollect(final int action, User user) {
+        model.operateCollect(GoodsDetailActivity.this, action, goodsId, user.getMuserName(),
+                new OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean msg) {
+
+                        if (msg != null && msg.isSuccess()) {
+                            isCollect = true;
+                            if (action == I.ACTION_DELETE_COLLECT) {
+                                isCollect = false;
                             }
-                            setCollectStatus();
-                        }
 
-                        @Override
-                        public void onError(String error) {
+                        } else {
+                            isCollect =false;
+                            if (action == I.ACTION_DELETE_COLLECT) {
+                                isCollect =true;
+                            }
+                        }
+                        setCollectStatus();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        L.e(TAG, "error = " +error);
+                        if (action == I.ACTION_IS_COLLECT) {
                             isCollect =false;
                             setCollectStatus();
                         }
-                    });
-        }
+                    }
+                });
     }
+
 
     /**
      * 设置收藏图标的状态，mIvGoodCollect
@@ -169,44 +191,11 @@ public class GoodsDetailActivity extends AppCompatActivity {
         if (user == null) {
             MFGT.gotoLoginActivity(this, 0);
         } else{
-            if (isCollect) {
-                model.operateCollect(GoodsDetailActivity.this, I.ACTION_DELETE_COLLECT, goodsId, user.getMuserName(),
-                        new OnCompleteListener<MessageBean>() {
-                            @Override
-                            public void onSuccess(MessageBean msg) {
-                                if (msg != null && msg.isSuccess()) {
-                                    isCollect = false;
+            if (isCollect) {// 取消收藏
+                operateCollect(I.ACTION_DELETE_COLLECT, user);
 
-                                } else {
-                                    isCollect = true;
-                                }
-                                setCollectStatus();
-                            }
-
-                            @Override
-                            public void onError(String error) {
-
-                            }
-                        });
-            } else {
-                model.operateCollect(GoodsDetailActivity.this, I.ACTION_ADD_COLLECT, goodsId, user.getMuserName(),
-                        new OnCompleteListener<MessageBean>() {
-                            @Override
-                            public void onSuccess(MessageBean msg) {
-                                if (msg != null && msg.isSuccess()) {
-                                    isCollect =true;
-
-                                } else {
-                                    isCollect =false;
-                                }
-                                setCollectStatus();
-                            }
-
-                            @Override
-                            public void onError(String error) {
-
-                            }
-                        });
+            } else { // 增加收藏
+                operateCollect(I.ACTION_ADD_COLLECT, user);
             }
         }
     }
