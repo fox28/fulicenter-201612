@@ -105,10 +105,10 @@ public class CollectsActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int lastPositon = manager.findLastVisibleItemPosition();
+                int lastPosition = manager.findLastVisibleItemPosition();
                 if (newState == recyclerView.SCROLL_STATE_IDLE
                         && adapter.isMore()
-                        && lastPositon == adapter.getItemCount() - 1) {
+                        && lastPosition == adapter.getItemCount() - 1) {
                     pageId++;
                     initData(I.ACTION_PULL_UP);
                 }
@@ -161,6 +161,9 @@ public class CollectsActivity extends AppCompatActivity {
                                 // 当前界面没有填满商品、或列表长度小于默认页面长度值
                                 adapter.setMore(false);
                             }
+                            adapter.notifyDataSetChanged();
+                        } else if (pageId == 1 &&result != null&result.length == 0) {
+                            mList.clear();
                             adapter.notifyDataSetChanged();
                         }
                     }

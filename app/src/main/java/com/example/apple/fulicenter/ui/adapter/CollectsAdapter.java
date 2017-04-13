@@ -9,8 +9,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.apple.fulicenter.R;
+import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.CollectBean;
+import com.example.apple.fulicenter.model.bean.MessageBean;
+import com.example.apple.fulicenter.model.net.GoodsModel;
+import com.example.apple.fulicenter.model.net.IGoodsModel;
+import com.example.apple.fulicenter.model.net.OnCompleteListener;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
 import com.example.apple.fulicenter.ui.view.FooterHolder;
 import com.example.apple.fulicenter.ui.view.MFGT;
@@ -19,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by apple on 2017/4/12.
@@ -28,11 +34,13 @@ public class CollectsAdapter extends RecyclerView.Adapter {
     Context mContext;
     List<CollectBean> mList;
     boolean isMore;
+    IGoodsModel model;
 
     public CollectsAdapter(Context context, List<CollectBean> list) {
         mContext = context;
         mList = list;
         this.isMore = true;
+        model = new GoodsModel();
     }
 
     public boolean isMore() {
@@ -96,7 +104,7 @@ public class CollectsAdapter extends RecyclerView.Adapter {
             super(view);
             ButterKnife.bind(this, view);
         }
-        public void bind(int position) {
+        public void bind(final int position) {
             final CollectBean bean = mList.get(position);
             mTvGoodsName.setText(bean.getGoodsName());
             ImageLoader.downloadImg(mContext,mIvGoodsThumb,bean.getGoodsThumb());
@@ -108,6 +116,34 @@ public class CollectsAdapter extends RecyclerView.Adapter {
                     MFGT.gotoDetailActivity(mContext,bean.getGoodsId());
                 }
             });
+
+            mIvCollectDel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeCollects(position, bean.getGoodsId());
+                }
+            });
+
         }
+
+        private void removeCollects(final int position, int goodsId) {
+            model.operateCollect(mContext, I.ACTION_DELETE_COLLECT, goodsId,
+                    FuLiCenterApplication.getCurrentUser().getMuserName(), new OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean msg) {
+                            if (msg != null && msg.isSuccess()) {
+                                mList.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        }
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+        }
+
+
+
     }
 }
