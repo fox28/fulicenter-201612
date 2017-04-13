@@ -13,6 +13,7 @@ import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.ui.fragment.BoutiqueFragment;
+import com.example.apple.fulicenter.ui.fragment.CartFragment;
 import com.example.apple.fulicenter.ui.fragment.CategoryFragment;
 import com.example.apple.fulicenter.ui.fragment.NewGoodsFragment;
 import com.example.apple.fulicenter.ui.fragment.PersonalCenterFragment;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     NewGoodsFragment mNewGoodsFragment;
     BoutiqueFragment mBoutiqueFragment;
     CategoryFragment mCategoryFragment;
+    CartFragment mCartFragment;
     PersonalCenterFragment mPersonalCenterFragment;
     int index = 0;
     int currentIndex = 0;
@@ -79,10 +81,12 @@ public class MainActivity extends AppCompatActivity {
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqueFragment = new BoutiqueFragment();
         mCategoryFragment = new CategoryFragment();
+        mCartFragment = new CartFragment();
         mPersonalCenterFragment = new PersonalCenterFragment();
         mFragments[0] = mNewGoodsFragment;
         mFragments[1] = mBoutiqueFragment;
         mFragments[2] = mCategoryFragment;
+        mFragments[3] = mCartFragment;
         mFragments[4] = mPersonalCenterFragment;
     }
 
