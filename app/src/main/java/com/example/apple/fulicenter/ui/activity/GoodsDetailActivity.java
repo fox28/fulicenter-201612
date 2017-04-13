@@ -1,5 +1,6 @@
 package com.example.apple.fulicenter.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -189,6 +190,9 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.backClickArea)
     public void onBackClicked() {
+        setResult(RESULT_OK, new Intent()
+                .putExtra(I.GoodsDetails.KEY_GOODS_ID, goodsId)
+                .putExtra(I.GoodsDetails.KEY_IS_COLLECT, isCollect));
         MFGT.finish(this);
     }
 
@@ -206,5 +210,18 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 operateCollect(I.ACTION_ADD_COLLECT, user);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        L.e(TAG, "onDestroy, isCollect="+isCollect);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        L.e(TAG, "onBackPressed, isCollect="+isCollect);
+        onBackClicked();
     }
 }
