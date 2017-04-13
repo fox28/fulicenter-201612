@@ -8,12 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.apple.fulicenter.R;
+import com.example.apple.fulicenter.model.net.CartModel;
+import com.example.apple.fulicenter.model.net.ICartModel;
 
 /**
  * Created by apple on 2017/4/13.
  */
 
 public class CartFragment extends Fragment {
+
+    ICartModel model;
 
     @Nullable
     @Override
@@ -26,5 +30,6 @@ public class CartFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        model = new CartModel();
     }
 }
