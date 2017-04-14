@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,11 @@ import butterknife.ButterKnife;
 public class CartAdapter extends RecyclerView.Adapter {
     Context mContext;
     List<CartBean> mList;
+    CompoundButton.OnCheckedChangeListener listener;
+
+    public void setListener(CompoundButton.OnCheckedChangeListener listener) {
+        this.listener = listener;
+    }
 
     public CartAdapter(Context context, List<CartBean> list) {
         mContext = context;
@@ -75,6 +81,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             User user = FuLiCenterApplication.getCurrentUser();
             if (user != null) {
                 CartBean bean = mList.get(position);
+                mCbCartSelected.setChecked(bean.isChecked());
                 mTvCartCount.setText("("+bean.getCount()+")");
                 GoodsDetailsBean goods = bean.getGoods();
                 if (goods != null) {
@@ -82,6 +89,8 @@ public class CartAdapter extends RecyclerView.Adapter {
                     mTvCartGoodName.setText(goods.getGoodsName());
                     ImageLoader.downloadImg(mContext,mIvCartThumb,goods.getGoodsThumb());
                 }
+                mCbCartSelected.setTag(position);
+                mCbCartSelected.setOnCheckedChangeListener(listener);
             }
         }
     }

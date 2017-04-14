@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.FuLiCenterApplication;
 import com.example.apple.fulicenter.model.bean.CartBean;
+import com.example.apple.fulicenter.model.bean.GoodsDetailsBean;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.net.CartModel;
 import com.example.apple.fulicenter.model.net.ICartModel;
@@ -82,7 +84,18 @@ public class CartFragment extends Fragment {
 
     private void setListener() {
         setPullDownListener();
+        adapter.setListener(mOnCheckedChangeListener);
     }
+
+    CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+            int potision = (int) compoundButton.getTag();
+            L.e(TAG, "onCheckedChanged, checked=" + isChecked + ", position=" + potision);
+            cartList.get(potision).setChecked(isChecked);
+            setPriceText();
+        }
+    };
 
     private void setPullDownListener() {
         mSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -119,6 +132,30 @@ public class CartFragment extends Fragment {
         mRv.setAdapter(adapter);
         mRv.addItemDecoration(new SpaceItemDecoration(12));
         setCarListLayout(false);
+
+        // 设置价格
+        setPriceText();
+    }
+
+    private void setPriceText() {
+        int sumPrice = 0;
+        int rankPrice = 0;
+        for (CartBean bean : cartList) {
+            if (bean.isChecked()) {
+                GoodsDetailsBean goods = bean.getGoods();
+                if (goods != null) {
+                    sumPrice+=getPrice(goods.getCurrencyPrice())*bean.getCount();
+                    rankPrice+=getPrice(goods.getRankPrice())*bean.getCount();
+                }
+            }
+        }
+        mTvCartSumPrice.setText("合计：￥"+sumPrice);
+        mTvCartSavePrice.setText("节省：￥"+(sumPrice-rankPrice));
+    }
+
+    private int getPrice(String price) {
+        String temp = price.substring(price.indexOf("￥") + 1);
+        return Integer.valueOf(temp);
     }
 
     private void initData() {
