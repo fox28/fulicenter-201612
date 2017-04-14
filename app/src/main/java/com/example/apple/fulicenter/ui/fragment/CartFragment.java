@@ -139,6 +139,7 @@ public class CartFragment extends Fragment {
         }
         adapter.notifyDataSetChanged(); // 更新列表数据
         setPriceText(); // 更新购物车选中商品的累积价格
+        setCarListLayout(!cartList.isEmpty());// 当购物车数量为0时，显示"空空如也"提示信息
     }
 
     CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
