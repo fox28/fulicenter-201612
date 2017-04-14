@@ -111,9 +111,13 @@ public class CartFragment extends Fragment {
 
     private void updateCart(final int position, final int count) {
         CartBean bean = cartList.get(position);
+        GoodsDetailsBean goods = bean.getGoods();
+        // 判断条件：当count=0时，执行删除操作
+        int action = bean.getCount()+count==0?I.ACTION_CART_DEL:I.ACTION_CART_UPDATA;
         if (bean != null) {
-            model.CartAction(getContext(), I.ACTION_CART_UPDATA, String.valueOf(bean.getId()),
-                    null,  null, bean.getCount() + count, new OnCompleteListener<MessageBean>() {
+            model.CartAction(getContext(), action, String.valueOf(bean.getId()),String.valueOf(goods.getGoodsId()),
+                      FuLiCenterApplication.getCurrentUser().getMuserName(),
+                    bean.getCount() + count, new OnCompleteListener<MessageBean>() {
                         @Override
                         public void onSuccess(MessageBean result) {
                             if (result != null && result.isSuccess()) {
@@ -129,7 +133,11 @@ public class CartFragment extends Fragment {
     }
 
     private void updateCartListView(int position, int count) {
-        cartList.get(position).setCount(cartList.get(position).getCount()+count);
+        if (cartList.get(position).getCount()+count == 0) {
+            cartList.remove(position);
+        }else {
+            cartList.get(position).setCount(cartList.get(position).getCount()+count);
+        }
         adapter.notifyDataSetChanged(); // 更新列表数据
         setPriceText(); // 更新购物车选中商品的累积价格
     }
