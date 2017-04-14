@@ -87,25 +87,24 @@ public class CartFragment extends Fragment {
     private void setListener() {
         setPullDownListener();
         adapter.setListener(mOnCheckedChangeListener);
-        adapter.setAddListener(addListener);
-        adapter.setMinusListener(minusListener);
+        adapter.setUpdateListener(updateListener);
     }
 
-    View.OnClickListener minusListener = new View.OnClickListener() {
+    /**
+     * 实例化监听事件更新（增加减少）购物车商品数量
+     */
+    View.OnClickListener updateListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
-            int position = (int) v.getTag();
-            L.e(TAG, "minusListener, position="+position);
-            updateCart(position, -1);
-        }
-    };
-
-    View.OnClickListener addListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = (int) v.getTag();
-            L.e(TAG, "addListener, position="+position);
-            updateCart(position, +1);
+        public void onClick(View view) {
+            int position = (int) view.getTag();
+            int count = 0;
+            if (view.getTag(R.id.action_add_cart)!=null) {
+                count = (int) view.getTag(R.id.action_add_cart);
+            } else if (view.getTag(R.id.action_del_cart)!=null) {
+                count = (int) view.getTag(R.id.action_del_cart);
+            }
+            L.e(TAG, "addListener, position="+position+", count="+count);
+            updateCart(position, count);
         }
     };
 
@@ -133,7 +132,7 @@ public class CartFragment extends Fragment {
     }
 
     private void updateCartListView(int position, int count) {
-        if (cartList.get(position).getCount()+count == 0) {
+        if (cartList.get(position).getCount()+count == 0) {// 判断条件：当count=0时，执行删除操作
             cartList.remove(position);
         }else {
             cartList.get(position).setCount(cartList.get(position).getCount()+count);
