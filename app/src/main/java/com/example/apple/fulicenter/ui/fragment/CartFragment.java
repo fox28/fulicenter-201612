@@ -15,8 +15,10 @@ import android.widget.TextView;
 
 import com.example.apple.fulicenter.R;
 import com.example.apple.fulicenter.application.FuLiCenterApplication;
+import com.example.apple.fulicenter.application.I;
 import com.example.apple.fulicenter.model.bean.CartBean;
 import com.example.apple.fulicenter.model.bean.GoodsDetailsBean;
+import com.example.apple.fulicenter.model.bean.MessageBean;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.net.CartModel;
 import com.example.apple.fulicenter.model.net.ICartModel;
@@ -85,14 +87,59 @@ public class CartFragment extends Fragment {
     private void setListener() {
         setPullDownListener();
         adapter.setListener(mOnCheckedChangeListener);
+        adapter.setAddListener(addListener);
+        adapter.setMinusListener(minusListener);
+    }
+
+    View.OnClickListener minusListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            L.e(TAG, "minusListener, position="+position);
+            updateCart(position, -1);
+        }
+    };
+
+    View.OnClickListener addListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            L.e(TAG, "addListener, position="+position);
+            updateCart(position, +1);
+        }
+    };
+
+    private void updateCart(final int position, final int count) {
+        CartBean bean = cartList.get(position);
+        if (bean != null) {
+            model.CartAction(getContext(), I.ACTION_CART_UPDATA, String.valueOf(bean.getId()),
+                    null,  null, bean.getCount() + count, new OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+                            if (result != null && result.isSuccess()) {
+                                updateCartListView(position, count);
+                            }
+                        }
+                        @Override
+                        public void onError(String error) {
+                            L.e(TAG, "updateCart, error="+error);
+                        }
+                    });
+        }
+    }
+
+    private void updateCartListView(int position, int count) {
+        cartList.get(position).setCount(cartList.get(position).getCount()+count);
+        adapter.notifyDataSetChanged(); // 更新列表数据
+        setPriceText(); // 更新购物车选中商品的累积价格
     }
 
     CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-            int potision = (int) compoundButton.getTag();
-            L.e(TAG, "onCheckedChanged, checked=" + isChecked + ", position=" + potision);
-            cartList.get(potision).setChecked(isChecked);
+            int position = (int) compoundButton.getTag();
+            L.e(TAG, "onCheckedChanged, checked=" + isChecked + ", position=" + position);
+            cartList.get(position).setChecked(isChecked);
             setPriceText();
         }
     };
