@@ -14,6 +14,6 @@ import com.example.apple.fulicenter.model.bean.MessageBean;
 public interface ICartModel {
     void loadCart(Context context, String userName, OnCompleteListener<CartBean[]> listener);
 
-    void CartAction(Context context, int action, String cartId, String userName, String goodsId,
+    void CartAction(Context context, int action, String cartId, String goodsId, String userName,
                     int count, OnCompleteListener<MessageBean> listener);
 }

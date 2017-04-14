@@ -62,9 +62,6 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
 
             }
         });
-
-
-
     }
 
 
@@ -72,7 +69,6 @@ public class BoutiqueAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return mList != null ? mList.size()  : 0;
     }
-
 
 
 

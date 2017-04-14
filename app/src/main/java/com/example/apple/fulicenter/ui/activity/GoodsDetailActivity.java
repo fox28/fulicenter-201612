@@ -15,7 +15,9 @@ import com.example.apple.fulicenter.model.bean.AlbumsBean;
 import com.example.apple.fulicenter.model.bean.GoodsDetailsBean;
 import com.example.apple.fulicenter.model.bean.MessageBean;
 import com.example.apple.fulicenter.model.bean.User;
+import com.example.apple.fulicenter.model.net.CartModel;
 import com.example.apple.fulicenter.model.net.GoodsModel;
+import com.example.apple.fulicenter.model.net.ICartModel;
 import com.example.apple.fulicenter.model.net.IGoodsModel;
 import com.example.apple.fulicenter.model.net.OnCompleteListener;
 import com.example.apple.fulicenter.model.utils.CommonUtils;
@@ -37,6 +39,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "GoodsDetailActivity";
     IGoodsModel model;
+    ICartModel cartModel;
     int goodsId = 0;
     GoodsDetailsBean bean;
     boolean isCollect;
@@ -69,6 +72,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
             return;
         }
         model = new GoodsModel();
+        cartModel = new CartModel();
         initData();
     }
 
@@ -210,6 +214,37 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 operateCollect(I.ACTION_ADD_COLLECT, user);
             }
         }
+    }
+
+    @OnClick(R.id.iv_good_cart)
+    public void onGoodsCart() {
+        if(util.check()) return; // 添加防抖措施
+        User user = FuLiCenterApplication.getCurrentUser();
+        if (user == null) {
+            MFGT.gotoLoginActivity(GoodsDetailActivity.this, 0);
+        } else {
+            addGoodsToCart(user);
+        }
+    }
+
+    private void addGoodsToCart(User user) {
+        cartModel.CartAction(GoodsDetailActivity.this, I.ACTION_CART_ADD, null, "" + goodsId,
+                user.getMuserName(), 1, new OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean msg) {
+                        if (msg != null && msg.isSuccess()) {
+                            CommonUtils.showShortToast(R.string.add_goods_success);
+                        } else {
+                            CommonUtils.showShortToast(R.string.add_goods_fail);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        CommonUtils.showShortToast(R.string.add_goods_fail);
+                        L.e(TAG, "addGoodsToCart, error = "+error);
+                    }
+                });
     }
 
     @Override

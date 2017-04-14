@@ -25,10 +25,13 @@ public class CartModel implements ICartModel {
     }
 
 
-
+    /*
+    public void cartAction(Context context, int action, String cartId, String goodsId,
+                            String username, int count, OnCompleteListener<MessageBean> listener)
+     */
 
     @Override
-    public void CartAction(Context context, int action, String cartId, String userName, String goodsId,
+    public void CartAction(Context context, int action, String cartId, String goodsId, String userName,
                            int count, OnCompleteListener<MessageBean> listener) {
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
         if (action == I.ACTION_CART_ADD) {
@@ -38,7 +41,6 @@ public class CartModel implements ICartModel {
         } else if (action == I.ACTION_CART_UPDATA) {
             updateCart(utils, cartId,count, listener);
         }
-
     }
 
     // addCart		goodsId userName count isChecked
@@ -62,6 +64,7 @@ public class CartModel implements ICartModel {
                 .targetClass(MessageBean.class)
                 .execute(listener);
     }
+
 
     // updateCart		id count isChecked
     // http://101.251.196.90:8080/FuLiCenterServerV2.0/updateCart?id=3025&count=1&isChecked=1
