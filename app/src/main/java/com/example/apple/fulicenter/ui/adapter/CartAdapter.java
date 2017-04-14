@@ -1,0 +1,88 @@
+package com.example.apple.fulicenter.ui.adapter;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.apple.fulicenter.R;
+import com.example.apple.fulicenter.application.FuLiCenterApplication;
+import com.example.apple.fulicenter.model.bean.CartBean;
+import com.example.apple.fulicenter.model.bean.GoodsDetailsBean;
+import com.example.apple.fulicenter.model.bean.User;
+import com.example.apple.fulicenter.model.utils.ImageLoader;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * Created by apple on 2017/4/14.
+ */
+
+public class CartAdapter extends RecyclerView.Adapter {
+    Context mContext;
+    List<CartBean> mList;
+
+    public CartAdapter(Context context, List<CartBean> list) {
+        mContext = context;
+        mList = list;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        CartViewHolder holder = new CartViewHolder(View.inflate(mContext, R.layout.item_cart, null));
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, int position) {
+        CartViewHolder holder = (CartViewHolder) parentHolder;
+        holder.bind(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList != null ? mList.size() : 0;
+    }
+
+    class CartViewHolder extends RecyclerView.ViewHolder{
+        @BindView(R.id.cb_cart_selected)
+        CheckBox mCbCartSelected;
+        @BindView(R.id.iv_cart_thumb)
+        ImageView mIvCartThumb;
+        @BindView(R.id.tv_cart_good_name)
+        TextView mTvCartGoodName;
+        @BindView(R.id.iv_cart_add)
+        ImageView mIvCartAdd;
+        @BindView(R.id.tv_cart_count)
+        TextView mTvCartCount;
+        @BindView(R.id.iv_cart_del)
+        ImageView mIvCartDel;
+        @BindView(R.id.tv_cart_price)
+        TextView mTvCartPrice;
+
+        CartViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+
+        public void bind(int position) {
+            User user = FuLiCenterApplication.getCurrentUser();
+            if (user != null) {
+                CartBean bean = mList.get(position);
+                mTvCartCount.setText("("+bean.getCount()+")");
+                GoodsDetailsBean goods = bean.getGoods();
+                if (goods != null) {
+                    mTvCartPrice.setText(goods.getCurrencyPrice());
+                    mTvCartGoodName.setText(goods.getGoodsName());
+                    ImageLoader.downloadImg(mContext,mIvCartThumb,goods.getGoodsThumb());
+                }
+            }
+        }
+    }
+}
