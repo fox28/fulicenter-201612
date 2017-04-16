@@ -1,5 +1,9 @@
 package com.example.apple.fulicenter.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -45,6 +49,7 @@ public class CartFragment extends Fragment {
     LinearLayoutManager manager;
     CartAdapter adapter;
     List<CartBean> cartList;
+    UpdateReceiver mUpdateReceiver;
 
     @BindView(R.id.tv_refresh)
     TextView mTvRefresh;
@@ -88,6 +93,10 @@ public class CartFragment extends Fragment {
         setPullDownListener();
         adapter.setListener(mOnCheckedChangeListener);
         adapter.setUpdateListener(updateListener);
+
+        mUpdateReceiver = new UpdateReceiver();
+        IntentFilter filter = new IntentFilter(I.BROADCAST_UPDATA_CART);
+        getContext().registerReceiver(mUpdateReceiver, filter); // 注册监听事件：参数为监听实例和过滤条件。别忘了取消注册。
     }
 
     /**
@@ -256,5 +265,21 @@ public class CartFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mUpdateReceiver != null) {
+            getContext().unregisterReceiver(mUpdateReceiver);
+        }
+    }
+
+    class UpdateReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initData();
+        }
     }
 }
