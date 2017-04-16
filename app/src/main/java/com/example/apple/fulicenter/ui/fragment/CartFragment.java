@@ -135,11 +135,13 @@ public class CartFragment extends Fragment {
         L.e(TAG, "updateCartListView, position="+position+",    count="+count);
         if (cartList.get(position).getCount()+count == 0) {// 判断条件：当count=0时，执行删除操作
             cartList.remove(position);
+            adapter.notifyItemRemoved(position);
+            adapter.notifyItemRangeChanged(position, cartList.size()-position-1);
         }else {
             cartList.get(position).setCount(cartList.get(position).getCount()+count);
+            adapter.notifyItemChanged(position); // 更新列表数据
         }
         L.e(TAG, "updateCartListView, notify is doing ...");
-        adapter.notifyDataSetChanged(); // 更新列表数据
         setPriceText(); // 更新购物车选中商品的累积价格
         setCarListLayout(!cartList.isEmpty());// 当购物车数量为0时，显示"空空如也"提示信息
     }
