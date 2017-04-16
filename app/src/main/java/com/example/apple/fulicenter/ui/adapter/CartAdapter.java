@@ -86,6 +86,7 @@ public class CartAdapter extends RecyclerView.Adapter {
         }
 
         public void bind(int position) {
+            mCbCartSelected.setOnCheckedChangeListener(null);
             User user = FuLiCenterApplication.getCurrentUser();
             if (user != null) {
                 CartBean bean = mList.get(position);
