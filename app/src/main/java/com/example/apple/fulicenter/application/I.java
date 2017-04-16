@@ -23,6 +23,7 @@ public interface I {
     int REQUEST_CODE_NICK = 103;
     int REQUEST_CODE_LOGIN_FROM_CART = 104;
     int REQUEST_CODE_COLLECT = 105;
+    int REQUEST_CODE_ORDER = 106;
 
 
     /** BeeColud APP ID */
@@ -49,6 +50,8 @@ public interface I {
     String ACTION_TYPE_PERSONAL = "personal";
     String ACTION_TYPE_CART = "cart";
 
+    String ORDER_BUY_PRICE = "com.example.apple.fulicenter.order_buy_price";
+
     /** 添加收藏*/
     int ACTION_IS_COLLECT=0;
     /** 添加收藏*/
@@ -65,6 +68,7 @@ public interface I {
     int ACTION_CART_ADD = 1;
     int ACTION_CART_DEL = 2;
     int ACTION_CART_UPDATA = 3;
+
 
     interface Goods {
         String KEY_RESULT = "result";

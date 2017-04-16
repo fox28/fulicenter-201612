@@ -33,6 +33,7 @@
         <activity android:name=".ui.activity.UpdateNickActivity"/>
         <activity android:name=".ui.utils.ClipImageActivity"/>
         <activity android:name=".ui.activity.CollectsActivity"/>
+        <activity android:name=".ui.activity.OrderActivity"/>
     </application>
 
 </manifest>

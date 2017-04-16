@@ -15,6 +15,7 @@ import com.example.apple.fulicenter.ui.activity.CollectsActivity;
 import com.example.apple.fulicenter.ui.activity.GoodsDetailActivity;
 import com.example.apple.fulicenter.ui.activity.LoginActivity;
 import com.example.apple.fulicenter.ui.activity.MainActivity;
+import com.example.apple.fulicenter.ui.activity.OrderActivity;
 import com.example.apple.fulicenter.ui.activity.RegisterActivity;
 import com.example.apple.fulicenter.ui.activity.SettingsActivity;
 import com.example.apple.fulicenter.ui.activity.UpdateNickActivity;
@@ -100,5 +101,10 @@ public class MFGT {
 
     public static void gotoCollectsActivity(Activity activity) {
         startActivity(activity, CollectsActivity.class);
+    }
+
+    public static void gotoOrderActivity(Activity activity, int price) {
+        startActivityForResult(activity, new Intent(activity, OrderActivity.class)
+                .putExtra(I.ORDER_BUY_PRICE,price), I.REQUEST_CODE_ORDER);
     }
 }

@@ -27,9 +27,11 @@ import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.net.CartModel;
 import com.example.apple.fulicenter.model.net.ICartModel;
 import com.example.apple.fulicenter.model.net.OnCompleteListener;
+import com.example.apple.fulicenter.model.utils.CommonUtils;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.model.utils.ResultUtils;
 import com.example.apple.fulicenter.ui.adapter.CartAdapter;
+import com.example.apple.fulicenter.ui.view.MFGT;
 import com.example.apple.fulicenter.ui.view.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -50,6 +53,8 @@ public class CartFragment extends Fragment {
     CartAdapter adapter;
     List<CartBean> cartList;
     UpdateReceiver mUpdateReceiver;
+    int sumPrice ;
+    int rankPrice ;
 
     @BindView(R.id.tv_refresh)
     TextView mTvRefresh;
@@ -206,8 +211,8 @@ public class CartFragment extends Fragment {
     }
 
     private void setPriceText() {
-        int sumPrice = 0;
-        int rankPrice = 0;
+        sumPrice = 0;
+        rankPrice = 0;
         for (CartBean bean : cartList) {
             if (bean.isChecked()) {
                 GoodsDetailsBean goods = bean.getGoods();
@@ -280,6 +285,15 @@ public class CartFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             initData();
+        }
+    }
+
+    @OnClick(R.id.tv_cart_buy)
+    public void orderBuy(){
+        if (sumPrice > 0) {
+            MFGT.gotoOrderActivity(getActivity(), rankPrice);
+        } else {
+            CommonUtils.showLongToast(R.string.order_nothing);
         }
     }
 }
