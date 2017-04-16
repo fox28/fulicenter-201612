@@ -15,6 +15,7 @@ import com.example.apple.fulicenter.model.bean.CartBean;
 import com.example.apple.fulicenter.model.bean.GoodsDetailsBean;
 import com.example.apple.fulicenter.model.bean.User;
 import com.example.apple.fulicenter.model.utils.ImageLoader;
+import com.example.apple.fulicenter.model.utils.L;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
  */
 
 public class CartAdapter extends RecyclerView.Adapter {
+    private static final String TAG = "CartAdapter";
     Context mContext;
     List<CartBean> mList;
     CompoundButton.OnCheckedChangeListener listener;
@@ -53,6 +55,7 @@ public class CartAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder parentHolder, int position) {
         CartViewHolder holder = (CartViewHolder) parentHolder;
+        L.e(TAG, "onBindViewHolder, bind... ...");
         holder.bind(position);
     }
 
@@ -86,6 +89,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             User user = FuLiCenterApplication.getCurrentUser();
             if (user != null) {
                 CartBean bean = mList.get(position);
+                L.e(TAG, "bind, position="+position+", bean="+bean.isChecked());
                 mCbCartSelected.setChecked(bean.isChecked());
                 mTvCartCount.setText("("+bean.getCount()+")");
                 GoodsDetailsBean goods = bean.getGoods();
