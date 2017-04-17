@@ -8,6 +8,8 @@ import com.example.apple.fulicenter.model.dao.UserDao;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.model.utils.SharePreferenceUtils;
 
+import cn.sharesdk.framework.ShareSDK;
+
 /**
  * Created by apple on 2017/3/27.
  */
@@ -39,6 +41,7 @@ public class FuLiCenterApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        ShareSDK.initSDK(this);
     }
 
     public static Context getInstance() {
