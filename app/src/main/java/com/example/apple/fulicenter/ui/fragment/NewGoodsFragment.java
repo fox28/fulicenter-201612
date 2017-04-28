@@ -19,6 +19,7 @@ import com.example.apple.fulicenter.model.bean.NewGoodsBean;
 import com.example.apple.fulicenter.model.net.INewGoodsModel;
 import com.example.apple.fulicenter.model.net.NewGoodsModel;
 import com.example.apple.fulicenter.model.net.OnCompleteListener;
+import com.example.apple.fulicenter.model.utils.CommonUtils;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.model.utils.ResultUtils;
 import com.example.apple.fulicenter.ui.adapter.GoodsAdapter;
@@ -180,6 +181,7 @@ public class NewGoodsFragment extends Fragment {
             public void onError(String error) {
                 L.e(TAG, "initData, error = " + error);
                 // 设置SwipeRefreshLayout为不再刷新…………提取出私有方法
+                CommonUtils.showShortToast(error);
                 setRefresh(false);
             }
         });

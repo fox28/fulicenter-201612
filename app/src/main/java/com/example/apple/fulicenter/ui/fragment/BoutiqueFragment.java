@@ -18,6 +18,7 @@ import com.example.apple.fulicenter.model.bean.BoutiqueBean;
 import com.example.apple.fulicenter.model.net.BoutiqueModel;
 import com.example.apple.fulicenter.model.net.IBoutiqueModel;
 import com.example.apple.fulicenter.model.net.OnCompleteListener;
+import com.example.apple.fulicenter.model.utils.CommonUtils;
 import com.example.apple.fulicenter.model.utils.L;
 import com.example.apple.fulicenter.model.utils.OkHttpUtils;
 import com.example.apple.fulicenter.model.utils.ResultUtils;
@@ -107,6 +108,8 @@ public class BoutiqueFragment extends Fragment {
             @Override
             public void onError(String error) {
                 L.e(TAG, "error:"+error);
+                CommonUtils.showShortToast(error);
+                setRefresh(false);
 
             }
         });
