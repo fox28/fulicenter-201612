@@ -89,6 +89,10 @@ public class NewGoodsFragment extends Fragment {
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green)
         );
+
+        /**
+         * spanCount:The number of columns in the grid -----I.COLUM_NUM
+         */
         manager = new GridLayoutManager(getContext(), I.COLUM_NUM);
 
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -153,8 +157,6 @@ public class NewGoodsFragment extends Fragment {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 // 设置SwipeRefreshLayout为不再刷新
-               /* mSrl.setRefreshing(false);
-                mtvRefresh.setVisibility(View.GONE);*/
                 setRefresh(false);
                 adapter.setMore(true);
                 L.e(TAG, "initData, result = " + result);
@@ -165,8 +167,9 @@ public class NewGoodsFragment extends Fragment {
                         mList.clear();
                     }
                     mList.addAll(lists); // 添加list
-                    if (lists.size() < I.PAGE_ID_DEFAULT) {
+                    if (lists.size() < I.PAGE_SIZE_DEFAULT) {
                         adapter.setMore(false);
+                        L.e(TAG, "setMore="+false);
 
                     }
                     adapter.notifyDataSetChanged();
