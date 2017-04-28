@@ -3,7 +3,7 @@
           android:id="@+id/tv_refresh"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="更新中……"
+          android:text="@string/now_refresh"
           android:textSize="18sp"
           android:textStyle="bold"
           android:layout_gravity="center_horizontal"
